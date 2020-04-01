@@ -1,6 +1,9 @@
 "use strict";
 
-const TASK_COUNT = 3;
+const FILM_CARD_COUNT = 5;
+const FILM_TOP_COUNT = 2;
+const FILM_MOST_COUNT = 2;
+
 
 const headerProfileTemplate =
     `<section class="header__profile profile">
@@ -320,8 +323,8 @@ const filmsCardMost = filmsContainer.children[2].querySelector(`.films-list__con
 const bodyContainer = document.querySelector(`body`);
 
 
-render(filmCardElement, filmCardTemplate, 5);
+render(filmCardElement, filmCardTemplate, FILM_CARD_COUNT);
 render(buttonShowMore, buttonShowMoreTemplate);
-render(filmsCardTop, topFilmsListTemplate, 2);
-render(filmsCardMost, mostFilmsListTemplate, 2);
-render(bodyContainer, filmDetailsTemplate, 1);
+render(filmsCardTop, topFilmsListTemplate, FILM_TOP_COUNT);
+render(filmsCardMost, mostFilmsListTemplate, FILM_MOST_COUNT);
+render(bodyContainer, filmDetailsTemplate);

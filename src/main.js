@@ -10,7 +10,7 @@ const headerProfileTemplate =
  ;
 
 
- const mainNavigationTemplate =
+const mainNavigationTemplate =
  `<nav class="main-navigation">
     <div class="main-navigation__items">
       <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
@@ -29,7 +29,7 @@ const headerProfileTemplate =
  ;
 
 
- const filmsContainerTemplate =
+const filmsContainerTemplate =
     `<section class="films">
     <section class="films-list">
       <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
@@ -59,7 +59,7 @@ const headerProfileTemplate =
  ;
 
 
- const filmCardTemplate =
+const filmCardTemplate =
     `<article class="film-card">
     <h3 class="film-card__title">The Dance of Life</h3>
     <p class="film-card__rating">8.3</p>
@@ -300,8 +300,8 @@ const filmDetailsTemplate =
 
 const render = (container, template, count = 1, place = `beforeend`) => {
   for (let i = 0; i < count; i++) {
-  container.insertAdjacentHTML(place, template);
- };
+    container.insertAdjacentHTML(place, template);
+  }
 };
 
 

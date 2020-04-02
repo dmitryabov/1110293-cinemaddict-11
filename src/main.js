@@ -5,16 +5,19 @@ const FILM_TOP_COUNT = 2;
 const FILM_MOST_COUNT = 2;
 
 
-const headerProfileTemplate =
+const headerProfileTemplate = () => {
+  return (
     `<section class="header__profile profile">
       <p class="profile__rating">Movie Buff</p>
       <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
     </section>`
- ;
+  );
+};
 
 
-const mainNavigationTemplate =
- `<nav class="main-navigation">
+const mainNavigationTemplate = () => {
+  return (
+    `<nav class="main-navigation">
     <div class="main-navigation__items">
       <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
       <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">13</span></a>
@@ -29,10 +32,12 @@ const mainNavigationTemplate =
     <li><a href="#" class="sort__button">Sort by date</a></li>
     <li><a href="#" class="sort__button">Sort by rating</a></li>
   </ul>`
- ;
+  );
+};
 
 
-const filmsContainerTemplate =
+const filmsContainerTemplate = () => {
+  return (
     `<section class="films">
     <section class="films-list">
       <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
@@ -59,10 +64,12 @@ const filmsContainerTemplate =
       </div>
     </section>
   </section>`
- ;
+  );
+};
 
 
-const filmCardTemplate =
+const filmCardTemplate = () => {
+  return (
     `<article class="film-card">
     <h3 class="film-card__title">The Dance of Life</h3>
     <p class="film-card__rating">8.3</p>
@@ -80,15 +87,19 @@ const filmCardTemplate =
       <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
     </form>
   </article>`
- ;
+  );
+};
 
 
-const buttonShowMoreTemplate =
-  `<button class="films-list__show-more">Show more</button>`
-;
+const buttonShowMoreTemplate = () => {
+  return (
+    `<button class="films-list__show-more">Show more</button>`
+  );
+};
 
-const topFilmsListTemplate =
-  `<article class="film-card">
+const topFilmsListTemplate = () => {
+  return (
+    `<article class="film-card">
       <h3 class="film-card__title">The Man with the Golden Arm</h3>
       <p class="film-card__rating">9.0</p>
       <p class="film-card__info">
@@ -105,10 +116,12 @@ const topFilmsListTemplate =
         <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
       </form>
     </article>`
-;
+  );
+};
 
-const mostFilmsListTemplate =
-  `<article class="film-card">
+const mostFilmsListTemplate = () => {
+  return (
+    `<article class="film-card">
       <h3 class="film-card__title">Santa Claus Conquers the Martians</h3>
       <p class="film-card__rating">2.3</p>
       <p class="film-card__info">
@@ -125,11 +138,13 @@ const mostFilmsListTemplate =
         <button class="film-card__controls-item button film-card__controls-item--favorite film-card__controls-item--active">Mark as favorite</button>
       </form>
     </article>`
-;
+  );
+};
 
 
-const filmDetailsTemplate =
-  `<section class="film-details">
+const filmDetailsTemplate = () => {
+  return (
+    `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
     <div class="form-details__top-container">
       <div class="film-details__close">
@@ -298,7 +313,8 @@ const filmDetailsTemplate =
     </div>
   </form>
 </section>`
-;
+  );
+};
 
 
 const render = (container, template, count = 1, place = `beforeend`) => {
@@ -310,9 +326,9 @@ const render = (container, template, count = 1, place = `beforeend`) => {
 
 const siteHeaderElement = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
-render(siteHeaderElement, headerProfileTemplate);
-render(mainContainer, mainNavigationTemplate);
-render(mainContainer, filmsContainerTemplate);
+render(siteHeaderElement, headerProfileTemplate());
+render(mainContainer, mainNavigationTemplate());
+render(mainContainer, filmsContainerTemplate());
 
 
 const filmsContainer = mainContainer.querySelector(`.films`);
@@ -323,8 +339,8 @@ const filmsCardMost = filmsContainer.children[2].querySelector(`.films-list__con
 const bodyContainer = document.querySelector(`body`);
 
 
-render(filmCardElement, filmCardTemplate, FILM_CARD_COUNT);
-render(buttonShowMore, buttonShowMoreTemplate);
-render(filmsCardTop, topFilmsListTemplate, FILM_TOP_COUNT);
-render(filmsCardMost, mostFilmsListTemplate, FILM_MOST_COUNT);
-render(bodyContainer, filmDetailsTemplate);
+render(filmCardElement, filmCardTemplate(), FILM_CARD_COUNT);
+render(buttonShowMore, buttonShowMoreTemplate());
+render(filmsCardTop, topFilmsListTemplate(), FILM_TOP_COUNT);
+render(filmsCardMost, mostFilmsListTemplate(), FILM_MOST_COUNT);
+render(bodyContainer, filmDetailsTemplate());

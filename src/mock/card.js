@@ -37,7 +37,9 @@ const commentText = [`Interesting setting and cast`, `Boooooooring`, `Very old. 
 
 const authors = [`Jon`, `Ban`, `Mickle`, `Andry`];
 
-const commentDays = [`2 days ago`, `1 days ago`, `3 days ago`, `6 days ago`];
+const commentDays = [`2019/02/31 03:519`, `2019/01/01 44:59`, `2011/14/41 23:59`, `2019/11/11 13:29`];
+
+const releaseDates = [`11 June 1905`, `30 May 1911`, `12 April 1988`, `01 April 1995`];
 
 
 const getRandomArrayItem = (array) => {
@@ -50,32 +52,34 @@ const getRandomIntegerNumber = (min, max) => {
 };
 
 
+const generateComments = (numberOfComments) => {
+  const comments = [];
+  for (let i = 0; i < numberOfComments; i++) {
+    const filmComments = {
+      emoji: getRandomArrayItem(emojis),
+      text: getRandomArrayItem(commentText),
+      author: getRandomArrayItem(authors),
+      commentDay: getRandomArrayItem(commentDays)
+    };
+    comments.push(filmComments);
+  }
+  return comments;
+};
+
+
 const generateCard = () => {
   return {
     director: getRandomArrayItem(directors),
     writer: getRandomArrayItem(writers),
     actor: actors.slice(getRandomIntegerNumber(0, actors.length)).join(`, `),
-    releaseDate: getRandomIntegerNumber(1908, 1999),
+    releaseDate: getRandomArrayItem(releaseDates),
     runtime: `1h ${getRandomIntegerNumber(1, 60)}m`,
     country: countries.slice(getRandomIntegerNumber(0, actors.length)).join(`, `),
     genres: genres.slice(getRandomIntegerNumber(0, countries.length)).join(`, `),
     filmDescription: getRandomArrayItem(filmDescriptions),
     filmTitle: getRandomArrayItem(filmTitles),
     poster: filmPosters[getRandomIntegerNumber(1, 5)],
-    comment: [
-      {
-        emoji: getRandomArrayItem(emojis),
-        text: getRandomArrayItem(commentText),
-        author: getRandomArrayItem(authors),
-        commentDay: getRandomArrayItem(commentDays)
-      },
-      {
-        emoji: getRandomArrayItem(emojis),
-        text: getRandomArrayItem(commentText),
-        author: getRandomArrayItem(authors),
-        commentDay: getRandomArrayItem(commentDays)
-      }
-    ],
+    comment: generateComments(getRandomIntegerNumber(1, 10)),
     filmRating: getRandomIntegerNumber(3, 9),
     filmTtitleOriginal: getRandomArrayItem(filmTtitleOriginals),
     ageRating: getRandomArrayItem(ageRatings),

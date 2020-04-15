@@ -1,18 +1,13 @@
+import {PROFILE_RATINGS} from '../const.js';
+
 const getRating = (profileInformation) => {
   let ratingProfile = profileInformation.rating;
-  if (ratingProfile <= 0) {
-    ratingProfile = ``;
-  } else if (ratingProfile > 0 && ratingProfile <= 10) {
-    ratingProfile = `novice`;
-  } else if (ratingProfile > 10 && ratingProfile <= 20) {
-    ratingProfile = `fan`;
-  } else if (ratingProfile > 20) {
-    ratingProfile = `movie buff`;
-  }
+  ratingProfile = ratingProfile >= 21 ? `movie buff` : PROFILE_RATINGS[Math.ceil(ratingProfile / 10)];
   return {
     rating: ratingProfile,
     avatar: `bitmap@2x.png`
   };
+
 };
 
 

@@ -80,11 +80,12 @@ const generateCard = () => {
     filmTitle: getRandomArrayItem(filmTitles),
     poster: filmPosters[getRandomIntegerNumber(1, 5)],
     comment: generateComments(getRandomIntegerNumber(1, 10)),
-    filmRating: getRandomIntegerNumber(3, 9),
+    filmRating: getRandomIntegerNumber(1, 10),
     filmTtitleOriginal: getRandomArrayItem(filmTtitleOriginals),
     ageRating: getRandomArrayItem(ageRatings),
   };
 };
+
 
 const generateCards = (count) => {
   return new Array(count)

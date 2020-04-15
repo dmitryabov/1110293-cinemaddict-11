@@ -1,5 +1,5 @@
-import {controlNames} from '../const.js';
-import {emojiNames} from '../const.js';
+import {CONTROL_NAMES} from '../const.js';
+import {EMOJI_NAMES} from '../const.js';
 
 const createFilmDetailsTemplate = (rows) => {
   return rows
@@ -70,8 +70,8 @@ const createCommentTemplate = (comments) => {
 export const filmDetailsTemplate = (card, detailRows) => {
   const {filmTitle, poster, filmDescription, filmRating, filmTtitleOriginal, ageRating, comment} = card;
   const filmDetails = createFilmDetailsTemplate(detailRows);
-  const filmControls = createFilmControlTemplate(controlNames);
-  const emojis = createEmojiTemplate(emojiNames);
+  const filmControls = createFilmControlTemplate(CONTROL_NAMES);
+  const emojis = createEmojiTemplate(EMOJI_NAMES);
   const filmComments = createCommentTemplate(comment);
 
   return (

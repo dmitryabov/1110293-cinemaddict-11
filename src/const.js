@@ -1,4 +1,4 @@
-const controlNames = [
+const CONTROL_NAMES = [
   {
     name: `watchlist`,
     label: `Add to watchlist`
@@ -15,12 +15,17 @@ const controlNames = [
 ];
 
 
-const emojiNames = [
+const EMOJI_NAMES = [
   `smile`,
   `sleeping`,
   `puke`,
   `angry`
 ];
 
+const PROFILE_RATINGS = [
+  ``,
+  `novice`,
+  `fan`,
+];
 
-export {controlNames, emojiNames};
+export {CONTROL_NAMES, EMOJI_NAMES, PROFILE_RATINGS};

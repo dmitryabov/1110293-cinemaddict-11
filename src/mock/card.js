@@ -1,6 +1,6 @@
 const directors = [`Guns Akimbo`, `Anthony Mann`, `Martians Momar`, `Richard Jewell`];
 
-const writers = [`Anne Wigton`, `Heinz Herald`, `Richard Weil`];
+const writers = [`Anne Wigton`, `Heinz Herald`, `Richard Weil`, `Martians Momar`, `Richard Jewell`];
 
 const actors = [`Erich von Stroheim`, `Dan Duryea`, `Erich von Stroheim`, `MaryHughes`, `Dan Duryea`];
 
@@ -70,12 +70,12 @@ const generateComments = (numberOfComments) => {
 const generateCard = () => {
   return {
     director: getRandomArrayItem(directors),
-    writer: getRandomArrayItem(writers),
-    actor: actors.slice(getRandomIntegerNumber(0, actors.length)).join(`, `),
+    writer: writers.slice(getRandomIntegerNumber(1, writers.length)).join(`, `),
+    actor: actors.slice(getRandomIntegerNumber(1, actors.length)).join(`, `),
     releaseDate: getRandomArrayItem(releaseDates),
     runtime: `1h ${getRandomIntegerNumber(1, 60)}m`,
-    country: countries.slice(getRandomIntegerNumber(0, actors.length)).join(`, `),
-    genres: genres.slice(getRandomIntegerNumber(0, countries.length)).join(`, `),
+    country: countries.slice(getRandomIntegerNumber(1, actors.length)).join(`, `),
+    genres: genres.slice(getRandomIntegerNumber(1, countries.length)),
     filmDescription: getRandomArrayItem(filmDescriptions),
     filmTitle: getRandomArrayItem(filmTitles),
     poster: filmPosters[getRandomIntegerNumber(1, 5)],

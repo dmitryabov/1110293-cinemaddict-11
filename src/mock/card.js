@@ -25,7 +25,7 @@ const filmDescriptions = [
   `In rutrum ac purus sit amet tempus.`,
 ];
 
-const genres = [`Comedy`, `Drama`, `Mystery`, `Cartoon`, `Western`];
+const genres = [`Comedy`, `Drama`, `Mystery`, `Cartoon`, `Western`, `Criminal`, `Comics`];
 
 const filmTtitleOriginals = [`Guns Akimbo`, `Bombshell`, `Swallow`, `The Song of Names`, `Richard Jewell`];
 

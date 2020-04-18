@@ -611,7 +611,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generateCards", function() { return generateCards; });
 const directors = [`Guns Akimbo`, `Anthony Mann`, `Martians Momar`, `Richard Jewell`];
 
-const writers = [`Anne Wigton`, `Heinz Herald`, `Richard Weil`];
+const writers = [`Anne Wigton`, `Heinz Herald`, `Richard Weil`, `Martians Momar`, `Richard Jewell`];
 
 const actors = [`Erich von Stroheim`, `Dan Duryea`, `Erich von Stroheim`, `MaryHughes`, `Dan Duryea`];
 
@@ -681,12 +681,12 @@ const generateComments = (numberOfComments) => {
 const generateCard = () => {
   return {
     director: getRandomArrayItem(directors),
-    writer: getRandomArrayItem(writers),
-    actor: actors.slice(getRandomIntegerNumber(0, actors.length)).join(`, `),
+    writer: writers.slice(getRandomIntegerNumber(1, writers.length)).join(`, `),
+    actor: actors.slice(getRandomIntegerNumber(1, actors.length)).join(`, `),
     releaseDate: getRandomArrayItem(releaseDates),
     runtime: `1h ${getRandomIntegerNumber(1, 60)}m`,
-    country: countries.slice(getRandomIntegerNumber(0, actors.length)).join(`, `),
-    genres: genres.slice(getRandomIntegerNumber(0, countries.length)).join(`, `),
+    country: countries.slice(getRandomIntegerNumber(1, actors.length)).join(`, `),
+    genres: genres.slice(getRandomIntegerNumber(1, countries.length)),
     filmDescription: getRandomArrayItem(filmDescriptions),
     filmTitle: getRandomArrayItem(filmTitles),
     poster: filmPosters[getRandomIntegerNumber(1, 5)],
@@ -721,24 +721,57 @@ const generateCards = (count) => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createfilmDetailRows", function() { return createfilmDetailRows; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generateDetailRows", function() { return generateDetailRows; });
-const createfilmDetailRows = (details) => {
-  return [
-    {Director: `${details.director}`},
-    {Writers: `${details.writer}`},
-    {Actors: `${details.actor}`},
-    {Release: `${details.releaseDate}`},
-    {Runtime: `${details.runtime}`},
-    {Country: `${details.country}`},
-    {Genres: `${details.genres}`},
-  ];
+const createFilmGenre = (genre) => {
+  return (
+    `<span class="film-details__genre">${genre}</span>`
+  );
 };
 
+
+const createFilmGenreTemplate = (genres) => {
+  const filmDetailsRow = genres.map((it, i) => createFilmGenre(it, i === 0)).join(`\n`);
+  return `${filmDetailsRow}`;
+};
+
+
+const createfilmDetailRows = (details) => {
+  return [
+    {
+      cell: `${details.director}`,
+      term: `${details.director.includes(`,`) ? `Directors` : `Director`}`
+    },
+    {
+      cell: `${details.writer}`,
+      term: `${details.writer.includes(`,`) ? `Writers` : `Writer`}`,
+    },
+    {
+      cell: `${details.actor}`,
+      term: `${details.actor.includes(`,`) ? `Actors` : `Actor`}`,
+    },
+    {
+      cell: `${details.releaseDate}`,
+      term: `${details.releaseDate.includes(`,`) ? `Releases` : `Release`}`,
+    },
+    {
+      cell: `${details.runtime}`,
+      term: `${details.runtime.includes(`,`) ? `Runtimes` : `Runtime`}`,
+    },
+    {
+      cell: `${details.country}`,
+      term: `${details.country.includes(`,`) ? `Countrys` : `Country`}`,
+    },
+    {
+      cell: `${createFilmGenreTemplate(details.genres)}`,
+      term: `${details.genres.length > 1 ? `Genres` : `Genre`}`,
+    },
+  ];
+};
 
 const generateDetailRows = (rows) => {
   return rows.map((it) => {
     return {
-      term: Object.keys(it),
-      cell: Object.values(it)
+      cell: it.cell,
+      term: it.term
     };
   });
 };

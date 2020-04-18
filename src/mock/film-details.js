@@ -44,7 +44,6 @@ const createfilmDetailRows = (details) => {
   ];
 };
 
-
 const generateDetailRows = (rows) => {
   return rows.map((it) => {
     return {

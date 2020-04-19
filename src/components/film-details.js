@@ -1,5 +1,7 @@
 import {CONTROL_NAMES} from '../const.js';
 import {EMOJI_NAMES} from '../const.js';
+import {createElement} from '../utils.js';
+
 
 const createFilmDetailsTemplate = (rows) => {
   return rows
@@ -66,8 +68,65 @@ const createCommentTemplate = (comments) => {
   .join(`\n`);
 };
 
+const createFilmGenre = (genre) => {
+  return (
+    `<span class="film-details__genre">${genre}</span>`
+  );
+};
 
-export const filmDetailsTemplate = (card, detailRows) => {
+
+const createFilmGenreTemplate = (genres) => {
+  const filmDetailsRow = genres.map((it, i) => createFilmGenre(it, i === 0)).join(`\n`);
+  return `${filmDetailsRow}`;
+};
+
+
+const createfilmDetailRows = (card) => {
+  return [
+    {
+      cell: `${card.director}`,
+      term: `${card.director.includes(`,`) ? `Directors` : `Director`}`
+    },
+    {
+      cell: `${card.writer}`,
+      term: `${card.writer.includes(`,`) ? `Writers` : `Writer`}`,
+    },
+    {
+      cell: `${card.actor}`,
+      term: `${card.actor.includes(`,`) ? `Actors` : `Actor`}`,
+    },
+    {
+      cell: `${card.releaseDate}`,
+      term: `${card.releaseDate.includes(`,`) ? `Releases` : `Release`}`,
+    },
+    {
+      cell: `${card.runtime}`,
+      term: `${card.runtime.includes(`,`) ? `Runtimes` : `Runtime`}`,
+    },
+    {
+      cell: `${card.country}`,
+      term: `${card.country.includes(`,`) ? `Countrys` : `Country`}`,
+    },
+    {
+      cell: `${createFilmGenreTemplate(card.genres)}`,
+      term: `${card.genres.length > 1 ? `Genres` : `Genre`}`,
+    },
+  ];
+};
+
+const generateDetailRows = (rows) => {
+  return rows.map((it) => {
+    return {
+      cell: it.cell,
+      term: it.term
+    };
+  });
+};
+
+
+const createFilmDetailTemplate = (card) => {
+  const filmDetailRows = createfilmDetailRows(card);
+  const detailRows = generateDetailRows(filmDetailRows);
   const {filmTitle, poster, filmDescription, filmRating, filmTtitleOriginal, ageRating, comment} = card;
   const filmDetails = createFilmDetailsTemplate(detailRows);
   const filmControls = createFilmControlTemplate(CONTROL_NAMES);
@@ -129,3 +188,28 @@ export const filmDetailsTemplate = (card, detailRows) => {
     </section>`
   );
 };
+
+export default class FilmDetails {
+  constructor(card) {
+    this._card = card;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailTemplate(this._card);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+

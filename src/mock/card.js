@@ -25,7 +25,7 @@ const filmDescriptions = [
   `In rutrum ac purus sit amet tempus.`,
 ];
 
-const genres = [`Comedy`, `Drama`, `Mystery`, `Cartoon`, `Western`, `Criminal`, `Comics`];
+const genres = [`Comedy`, `Drama`, `Mystery`, `Cartoon`];
 
 const filmTtitleOriginals = [`Guns Akimbo`, `Bombshell`, `Swallow`, `The Song of Names`, `Richard Jewell`];
 
@@ -75,7 +75,7 @@ const generateCard = () => {
     releaseDate: getRandomArrayItem(releaseDates),
     runtime: `1h ${getRandomIntegerNumber(1, 60)}m`,
     country: countries.slice(getRandomIntegerNumber(1, actors.length)).join(`, `),
-    genres: genres.slice(getRandomIntegerNumber(1, countries.length)),
+    genres: genres.slice(getRandomIntegerNumber(1, genres.length)),
     filmDescription: getRandomArrayItem(filmDescriptions),
     filmTitle: getRandomArrayItem(filmTitles),
     poster: filmPosters[getRandomIntegerNumber(1, 5)],

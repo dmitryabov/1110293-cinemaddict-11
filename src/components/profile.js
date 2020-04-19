@@ -1,4 +1,5 @@
 import {PROFILE_RATINGS} from '../const.js';
+import {createElement} from "../utils.js";
 
 const getRating = (profileInformation) => {
   let ratingProfile = profileInformation.rating;
@@ -10,8 +11,7 @@ const getRating = (profileInformation) => {
 
 };
 
-
-export const headerProfileTemplate = (profile) => {
+const headerProfileTemplate = (profile) => {
   const profileInformation = getRating(profile);
   return (
     `<section class="header__profile profile">
@@ -20,3 +20,27 @@ export const headerProfileTemplate = (profile) => {
     </section>`
   );
 };
+
+export default class Profile {
+  constructor(profile) {
+    this._profile = profile;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return headerProfileTemplate(this._profile);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

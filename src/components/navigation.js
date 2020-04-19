@@ -1,10 +1,13 @@
+import {createElement} from "../utils.js";
+
+
 const createFilterMarkup = (name, count) => {
   return (
     `<a href="#${name.toLowerCase()}" class="main-navigation__item">${name} <span class="main-navigation__item-count">${count}</span></a>`
   );
 };
 
-export
+
 const createFilterTemplate = (filters) => {
   const filtersMarkup = filters.map((it) => createFilterMarkup(it.name, it.count)).join(`\n`);
 
@@ -19,3 +22,28 @@ const createFilterTemplate = (filters) => {
     </nav>`
   );
 };
+
+
+export default class Filter {
+  constructor(filter) {
+    this._filter = filter;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilterTemplate(this._filter);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

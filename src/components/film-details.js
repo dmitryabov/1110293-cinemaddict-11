@@ -85,27 +85,27 @@ const createfilmDetailRows = (card) => {
   return [
     {
       cell: `${card.director}`,
-      term: `${card.director.includes(`,`) ? `Directors` : `Director`}`
+      term: `Director`
     },
     {
-      cell: `${card.writer}`,
-      term: `${card.writer.includes(`,`) ? `Writers` : `Writer`}`,
+      cell: `${card.writer.join(`, `)}`,
+      term: `${card.writer.length > 1 ? `Writers` : `Writer`}`,
     },
     {
-      cell: `${card.actor}`,
-      term: `${card.actor.includes(`,`) ? `Actors` : `Actor`}`,
+      cell: `${card.actor.join(`, `)}`,
+      term: `${card.actor.length > 1 ? `Actors` : `Actor`}`,
     },
     {
       cell: `${card.releaseDate}`,
-      term: `${card.releaseDate.includes(`,`) ? `Releases` : `Release`}`,
+      term: `Release`,
     },
     {
       cell: `${card.runtime}`,
-      term: `${card.runtime.includes(`,`) ? `Runtimes` : `Runtime`}`,
+      term: `Runtime`,
     },
     {
-      cell: `${card.country}`,
-      term: `${card.country.includes(`,`) ? `Countrys` : `Country`}`,
+      cell: `${card.country.join(`, `)}`,
+      term: `${card.country.length > 1 ? `Countries` : `Country`}`,
     },
     {
       cell: `${createFilmGenreTemplate(card.genres)}`,
@@ -114,21 +114,11 @@ const createfilmDetailRows = (card) => {
   ];
 };
 
-const generateDetailRows = (rows) => {
-  return rows.map((it) => {
-    return {
-      cell: it.cell,
-      term: it.term
-    };
-  });
-};
-
 
 const createFilmDetailTemplate = (card) => {
-  const filmDetailRows = createfilmDetailRows(card);
-  const detailRows = generateDetailRows(filmDetailRows);
   const {filmTitle, poster, filmDescription, filmRating, filmTtitleOriginal, ageRating, comment} = card;
-  const filmDetails = createFilmDetailsTemplate(detailRows);
+  const filmDetailRows = createfilmDetailRows(card);
+  const filmDetails = createFilmDetailsTemplate(filmDetailRows);
   const filmControls = createFilmControlTemplate(CONTROL_NAMES);
   const emojis = createEmojiTemplate(EMOJI_NAMES);
   const filmComments = createCommentTemplate(comment);

@@ -1,20 +1,20 @@
 import {createElement} from "../utils.js";
 
 
-const createFilmStaisticTemplate = (cards) => {
-  return (`<p>${cards.length} movies inside</p>`);
+const createMovieStaisticTemplate = (movieStaistic) => {
+  return (`<p>${movieStaistic.length} movies inside</p>`);
 };
 
 
-export default class FilmStaistic {
-  constructor(filmStaistic) {
-    this._filmStaistic = filmStaistic;
+export default class MovieStaistic {
+  constructor(movieStaistic) {
+    this._movieStaistic = movieStaistic;
 
     this._element = null;
   }
 
   getTemplate() {
-    return createFilmStaisticTemplate(this._filmStaistic);
+    return createMovieStaisticTemplate(this._movieStaistic);
   }
 
   getElement() {

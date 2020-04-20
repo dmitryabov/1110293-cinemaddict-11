@@ -2,7 +2,7 @@ import ButtonShowMore from './components/button-show-more.js';
 import FilmsContainer from './components/container.js';
 import Card from './components/film-card.js';
 import FilmDetails from './components/film-details.js';
-import FilmStaistic from "./components/footer-statistic.js";
+import MovieStaistic from "./components/footer-statistic.js";
 import Filter from './components/navigation.js';
 import Profile from './components/profile.js';
 import Sort from './components/sorting';
@@ -102,7 +102,7 @@ const mainContainer = document.querySelector(`.main`);
 const filmCards = generateCards(FILM_CARD_COUNT);
 const filters = generateFilters();
 
-render(filmsStaisticContainer, new FilmStaistic(filmCards).getElement(), RenderPosition.BEFOREEND);
+render(filmsStaisticContainer, new MovieStaistic(filmCards).getElement(), RenderPosition.BEFOREEND);
 render(siteHeaderElement, new Profile(profileInformations).getElement(), RenderPosition.BEFOREEND);
 render(mainContainer, new Filter(filters).getElement(), RenderPosition.BEFOREEND);
 render(mainContainer, new Sort().getElement(), RenderPosition.BEFOREEND);

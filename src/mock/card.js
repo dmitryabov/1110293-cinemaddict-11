@@ -1,20 +1,20 @@
-const directors = [`Guns Akimbo`, `Anthony Mann`, `Martians Momar`, `Richard Jewell`];
+const DIRECTORS = [`Guns Akimbo`, `Anthony Mann`, `Martians Momar`, `Richard Jewell`];
 
-const writers = [`Anne Wigton`, `Heinz Herald`, `Richard Weil`, `Martians Momar`, `Richard Jewell`];
+const WRITERS = [`Anne Wigton`, `Heinz Herald`, `Richard Weil`, `Martians Momar`, `Richard Jewell`];
 
-const actors = [`Erich von Stroheim`, `Dan Duryea`, `Erich von Stroheim`, `MaryHughes`, `Dan Duryea`];
+const ACTORS = [`Erich von Stroheim`, `Dan Duryea`, `Erich von Stroheim`, `MaryHughes`, `Dan Duryea`];
 
-const countries = [`USA`, `USSR`, `Kanada`, `Dath`, `Italy`, `Russia`];
+const CONTRIES = [`USA`, `USSR`, `Kanada`, `Dath`, `Italy`, `Russia`];
 
-const filmTitles = [`Guns Akimbo`, `Bombshell`, `Swallow`, `The Song of Names`, `Richard Jewell`];
+const FILM_TITLES = [`Guns Akimbo`, `Bombshell`, `Swallow`, `The Song of Names`, `Richard Jewell`];
 
-const filmPosters = [
+const FILM_POSTERS = [
   `made-for-each-other.png`, `popeye-meets-sinbad.png`, `sagebrush-trail.jpg`,
   `santa-claus-conquers-the-martians.jpg`, `the-dance-of-life.jpg`, `the-great-flamarion.jpg`,
   `the-man-with-the-golden-arm.jpg`,
 ];
 
-const filmDescriptions = [
+const FILM_DESCRIPTIONS = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.`,
   `Fusce tristique felis at fermentum pharetra.`,
   `Aliquam id orci ut lectus varius viverra.`,
@@ -25,21 +25,21 @@ const filmDescriptions = [
   `In rutrum ac purus sit amet tempus.`,
 ];
 
-const genres = [`Comedy`, `Drama`, `Mystery`, `Cartoon`];
+const GENRES = [`Comedy`, `Drama`, `Mystery`, `Cartoon`];
 
-const filmTtitleOriginals = [`Guns Akimbo`, `Bombshell`, `Swallow`, `The Song of Names`, `Richard Jewell`];
+const FILM_TITLE_ORIGINALS = [`Guns Akimbo`, `Bombshell`, `Swallow`, `The Song of Names`, `Richard Jewell`];
 
-const ageRatings = [`6+`, `12+`, `0+`, `18+`];
+const AGE_RATING = [`6+`, `12+`, `0+`, `18+`];
 
-const emojis = [`smile`, `sleeping`, `puke`, `angry`];
+const EMOJIS = [`smile`, `sleeping`, `puke`, `angry`];
 
-const commentText = [`Interesting setting and cast`, `Boooooooring`, `Very old. Meh`, `Almost two hours? Seriously?`];
+const COMMENT_TEXT = [`Interesting setting and cast`, `Boooooooring`, `Very old. Meh`, `Almost two hours? Seriously?`];
 
-const authors = [`Jon`, `Ban`, `Mickle`, `Andry`];
+const AUTHORS = [`Jon`, `Ban`, `Mickle`, `Andry`];
 
-const commentDays = [`2019/02/31 03:519`, `2019/01/01 44:59`, `2011/14/41 23:59`, `2019/11/11 13:29`];
+const COMMENT_DAYS = [`2019/02/31 03:519`, `2019/01/01 44:59`, `2011/14/41 23:59`, `2019/11/11 13:29`];
 
-const releaseDates = [`11 June 1905`, `30 May 1911`, `12 April 1988`, `01 April 1995`];
+const RELEASE_DAYS = [`11 June 1905`, `30 May 1911`, `12 April 1988`, `01 April 1995`];
 
 
 const getRandomArrayItem = (array) => {
@@ -56,10 +56,10 @@ const generateComments = (numberOfComments) => {
   const comments = [];
   for (let i = 0; i < numberOfComments; i++) {
     const filmComments = {
-      emoji: getRandomArrayItem(emojis),
-      text: getRandomArrayItem(commentText),
-      author: getRandomArrayItem(authors),
-      commentDay: getRandomArrayItem(commentDays)
+      emoji: getRandomArrayItem(EMOJIS),
+      text: getRandomArrayItem(COMMENT_TEXT),
+      author: getRandomArrayItem(AUTHORS),
+      commentDay: getRandomArrayItem(COMMENT_DAYS)
     };
     comments.push(filmComments);
   }
@@ -69,20 +69,20 @@ const generateComments = (numberOfComments) => {
 
 const generateCard = () => {
   return {
-    director: getRandomArrayItem(directors),
-    writer: writers.slice(getRandomIntegerNumber(1, writers.length)).join(`, `),
-    actor: actors.slice(getRandomIntegerNumber(1, actors.length)).join(`, `),
-    releaseDate: getRandomArrayItem(releaseDates),
+    director: getRandomArrayItem(DIRECTORS),
+    writer: WRITERS.slice(getRandomIntegerNumber(1, WRITERS.length)),
+    actor: ACTORS.slice(getRandomIntegerNumber(1, ACTORS.length)),
+    releaseDate: getRandomArrayItem(RELEASE_DAYS),
     runtime: `1h ${getRandomIntegerNumber(1, 60)}m`,
-    country: countries.slice(getRandomIntegerNumber(1, actors.length)).join(`, `),
-    genres: genres.slice(getRandomIntegerNumber(1, genres.length)),
-    filmDescription: getRandomArrayItem(filmDescriptions),
-    filmTitle: getRandomArrayItem(filmTitles),
-    poster: filmPosters[getRandomIntegerNumber(1, 5)],
+    country: CONTRIES.slice(getRandomIntegerNumber(1, CONTRIES.length)),
+    genres: GENRES.slice(getRandomIntegerNumber(1, GENRES.length)),
+    filmDescription: getRandomArrayItem(FILM_DESCRIPTIONS),
+    filmTitle: getRandomArrayItem(FILM_TITLES),
+    poster: FILM_POSTERS[getRandomIntegerNumber(1, 5)],
     comment: generateComments(getRandomIntegerNumber(1, 10)),
     filmRating: getRandomIntegerNumber(1, 10),
-    filmTtitleOriginal: getRandomArrayItem(filmTtitleOriginals),
-    ageRating: getRandomArrayItem(ageRatings),
+    filmTtitleOriginal: getRandomArrayItem(FILM_TITLE_ORIGINALS),
+    ageRating: getRandomArrayItem(AGE_RATING),
   };
 };
 

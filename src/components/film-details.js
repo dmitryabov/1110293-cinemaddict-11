@@ -1,5 +1,7 @@
 import {CONTROL_NAMES} from '../const.js';
 import {EMOJI_NAMES} from '../const.js';
+import {createElement} from '../utils.js';
+
 
 const createFilmDetailsTemplate = (rows) => {
   return rows
@@ -66,10 +68,57 @@ const createCommentTemplate = (comments) => {
   .join(`\n`);
 };
 
+const createFilmGenre = (genre) => {
+  return (
+    `<span class="film-details__genre">${genre}</span>`
+  );
+};
 
-export const filmDetailsTemplate = (card, detailRows) => {
+
+const createFilmGenreTemplate = (genres) => {
+  const filmDetailsRow = genres.map((it, i) => createFilmGenre(it, i === 0)).join(`\n`);
+  return `${filmDetailsRow}`;
+};
+
+
+const createfilmDetailRows = (card) => {
+  return [
+    {
+      cell: `${card.director}`,
+      term: `Director`
+    },
+    {
+      cell: `${card.writer.join(`, `)}`,
+      term: `${card.writer.length > 1 ? `Writers` : `Writer`}`,
+    },
+    {
+      cell: `${card.actor.join(`, `)}`,
+      term: `${card.actor.length > 1 ? `Actors` : `Actor`}`,
+    },
+    {
+      cell: `${card.releaseDate}`,
+      term: `Release`,
+    },
+    {
+      cell: `${card.runtime}`,
+      term: `Runtime`,
+    },
+    {
+      cell: `${card.country.join(`, `)}`,
+      term: `${card.country.length > 1 ? `Countries` : `Country`}`,
+    },
+    {
+      cell: `${createFilmGenreTemplate(card.genres)}`,
+      term: `${card.genres.length > 1 ? `Genres` : `Genre`}`,
+    },
+  ];
+};
+
+
+const createFilmDetailTemplate = (card) => {
   const {filmTitle, poster, filmDescription, filmRating, filmTtitleOriginal, ageRating, comment} = card;
-  const filmDetails = createFilmDetailsTemplate(detailRows);
+  const filmDetailRows = createfilmDetailRows(card);
+  const filmDetails = createFilmDetailsTemplate(filmDetailRows);
   const filmControls = createFilmControlTemplate(CONTROL_NAMES);
   const emojis = createEmojiTemplate(EMOJI_NAMES);
   const filmComments = createCommentTemplate(comment);
@@ -129,3 +178,28 @@ export const filmDetailsTemplate = (card, detailRows) => {
     </section>`
   );
 };
+
+export default class FilmDetails {
+  constructor(card) {
+    this._card = card;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailTemplate(this._card);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+

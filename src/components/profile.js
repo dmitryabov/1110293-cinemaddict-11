@@ -1,5 +1,5 @@
 import {PROFILE_RATINGS} from '../const.js';
-import {createElement} from "../utils.js";
+import {createElement} from "../utils/render.js";
 
 const getRating = (profileInformation) => {
   let ratingProfile = profileInformation.rating;

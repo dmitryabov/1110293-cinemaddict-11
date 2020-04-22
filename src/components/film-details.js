@@ -1,6 +1,6 @@
 import {CONTROL_NAMES} from '../const.js';
 import {EMOJI_NAMES} from '../const.js';
-import {createElement} from '../utils.js';
+import {createElement} from '../utils/render.js';
 
 
 const createFilmDetailsTemplate = (rows) => {

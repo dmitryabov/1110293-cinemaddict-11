@@ -9,7 +9,9 @@ import Sort from './components/sorting';
 import {generateFilters} from './mock/filter';
 import {generateCards} from "./mock/card.js";
 import {profileInformations} from "./mock/profile-rating.js";
-import {render, RenderPosition} from "./utils.js";
+import {render, remove, RenderPosition} from "./utils/render.js";
+import {append} from "./utils/appendChild.js";
+import NoFilmsComponent from "./components/no-films.js";
 
 
 const FILM_CARD_COUNT = 25;
@@ -22,36 +24,67 @@ const SHOWING_FILM_COUNT_BY_BUTTON = 5;
 const renderFilmCard = (filmCard, place) => {
   const bodyContainer = document.querySelector(`body`);
 
-  const onEditButtonClick = () => {
-    bodyContainer.appendChild(filmDetailsComponent.getElement());
+  const appendFilmToDetail = () => {
+    append(bodyContainer, filmDetailsComponent);
   };
 
-  const onEditFormSubmit = (evt) => {
-    evt.preventDefault();
+  const appendDetailToFilmCard = () => {
     bodyContainer.removeChild(filmDetailsComponent.getElement());
+  };
+
+  const onEscKeyDown = (evt) => {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+    if (isEscKey) {
+      appendDetailToFilmCard();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
   };
 
   const filmCardComponent = new Card(filmCard);
   const filmDetailsComponent = new FilmDetails(filmCard);
 
+  const onElementClick = (appendElement) => {
+    appendElement();
+    document.addEventListener(`keydown`, onEscKeyDown);
+  };
+
   const filmTitle = filmCardComponent.getElement().querySelector(`.film-card__title`);
-  filmTitle.addEventListener(`click`, onEditButtonClick);
+  filmTitle.addEventListener(`click`, () => {
+    onElementClick(appendFilmToDetail);
+  });
 
   const filmPoster = filmCardComponent.getElement().querySelector(`.film-card__poster`);
-  filmPoster.addEventListener(`click`, onEditButtonClick);
+  filmPoster.addEventListener(`click`, () => {
+    onElementClick(appendFilmToDetail);
+  });
 
   const filmComments = filmCardComponent.getElement().querySelector(`.film-card__comments`);
-  filmComments.addEventListener(`click`, onEditButtonClick);
+  filmComments.addEventListener(`click`, () => {
+    onElementClick(appendFilmToDetail);
+  });
 
   const editForm = filmDetailsComponent.getElement().querySelector(`.film-details__close-btn`);
-  editForm.addEventListener(`click`, onEditFormSubmit);
+  editForm.addEventListener(`click`, appendDetailToFilmCard);
+  editForm.addEventListener(`submit`, (evt) => {
+    evt.preventDefault();
+    onElementClick(appendDetailToFilmCard);
+  });
 
-  render(place, filmCardComponent.getElement(), RenderPosition.BEFOREEND);
+
+  render(place, filmCardComponent, RenderPosition.BEFOREEND);
 };
 
 
 const renderBoard = (mainContainer, filmCards) => {
-  render(mainContainer, new FilmsContainer().getElement(), RenderPosition.BEFOREEND);
+  const isAllTasksArchived = filmCards.every((film) => film.isArchive);
+
+  if (isAllTasksArchived) {
+    render(mainContainer, new NoFilmsComponent(), RenderPosition.BEFOREEND);
+    return;
+  }
+
+  render(mainContainer, new FilmsContainer(), RenderPosition.BEFOREEND);
 
   const filmsContainer = mainContainer.querySelector(`.films`);
   const filmCardElement = filmsContainer.children[0].querySelector(`.films-list__container`);
@@ -80,7 +113,7 @@ const renderBoard = (mainContainer, filmCards) => {
     });
 
   const loadMoreButtonComponent = new ButtonShowMore();
-  render(buttonShowMore, loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
+  render(buttonShowMore, loadMoreButtonComponent, RenderPosition.BEFOREEND);
 
   loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
     const prevTasksCount = showingFilmCount;
@@ -89,8 +122,8 @@ const renderBoard = (mainContainer, filmCards) => {
     filmCards.slice(prevTasksCount, showingFilmCount)
       .forEach((task) => renderFilmCard(task, filmCardElement));
     if (showingFilmCount >= filmCards.length) {
-      loadMoreButtonComponent.getElement().remove();
-      loadMoreButtonComponent.removeElement();
+      remove(loadMoreButtonComponent);
+
     }
   });
 };
@@ -102,8 +135,8 @@ const mainContainer = document.querySelector(`.main`);
 const filmCards = generateCards(FILM_CARD_COUNT);
 const filters = generateFilters();
 
-render(filmsStaisticContainer, new MovieStaistic(filmCards).getElement(), RenderPosition.BEFOREEND);
-render(siteHeaderElement, new Profile(profileInformations).getElement(), RenderPosition.BEFOREEND);
-render(mainContainer, new Filter(filters).getElement(), RenderPosition.BEFOREEND);
-render(mainContainer, new Sort().getElement(), RenderPosition.BEFOREEND);
+render(filmsStaisticContainer, new MovieStaistic(filmCards), RenderPosition.BEFOREEND);
+render(siteHeaderElement, new Profile(profileInformations), RenderPosition.BEFOREEND);
+render(mainContainer, new Filter(filters), RenderPosition.BEFOREEND);
+render(mainContainer, new Sort(), RenderPosition.BEFOREEND);
 renderBoard(mainContainer, filmCards);

@@ -1,5 +1,4 @@
-import {createElement} from "../utils/render.js";
-
+import AbstractComponent from "./abstract-component.js";
 
 const createFilterMarkup = (name, count) => {
   return (
@@ -24,26 +23,14 @@ const createFilterTemplate = (filters) => {
 };
 
 
-export default class Filter {
+export default class Filter extends AbstractComponent {
   constructor(filter) {
+    super();
     this._filter = filter;
 
-    this._element = null;
   }
 
   getTemplate() {
     return createFilterTemplate(this._filter);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

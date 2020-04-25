@@ -1,5 +1,5 @@
 import {PROFILE_RATINGS} from '../const.js';
-import {createElement} from "../utils/render.js";
+import AbstractComponent from "./abstract-component.js";
 
 const getRating = (profileInformation) => {
   let ratingProfile = profileInformation.rating;
@@ -21,26 +21,13 @@ const headerProfileTemplate = (profile) => {
   );
 };
 
-export default class Profile {
+export default class Profile extends AbstractComponent {
   constructor(profile) {
+    super();
     this._profile = profile;
-
-    this._element = null;
   }
 
   getTemplate() {
     return headerProfileTemplate(this._profile);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

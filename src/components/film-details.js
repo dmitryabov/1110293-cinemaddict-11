@@ -1,6 +1,6 @@
 import {CONTROL_NAMES} from '../const.js';
 import {EMOJI_NAMES} from '../const.js';
-import {createElement} from '../utils/render.js';
+import AbstractComponent from "./abstract-component.js";
 
 
 const createFilmDetailsTemplate = (rows) => {
@@ -179,27 +179,20 @@ const createFilmDetailTemplate = (card) => {
   );
 };
 
-export default class FilmDetails {
+export default class FilmDetails extends AbstractComponent {
   constructor(card) {
+    super();
     this._card = card;
 
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmDetailTemplate(this._card);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  setClickHandler(handler) {
+    this.getElement().addEventListener(`click`, handler);
   }
 
-  removeElement() {
-    this._element = null;
-  }
 }
 

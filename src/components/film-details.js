@@ -190,8 +190,8 @@ export default class FilmDetails extends AbstractComponent {
     return createFilmDetailTemplate(this._card);
   }
 
-  setClickHandler(handler) {
-    this.getElement().addEventListener(`click`, handler);
+  setClickHandler(handler, element) {
+    this.getElement().querySelector(element).addEventListener(`click`, handler);
   }
 
 }

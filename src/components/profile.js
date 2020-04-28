@@ -20,7 +20,10 @@ const headerProfileTemplate = (profile) => {
     </section>`
   );
 };
-
+/**
+ * @class
+ * @param {object} profile объект с информацией о рейтинге и аватаре пользователя
+ */
 export default class Profile extends AbstractComponent {
   constructor(profile) {
     super();

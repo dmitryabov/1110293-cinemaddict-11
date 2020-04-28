@@ -7,7 +7,10 @@ const createButtonShowMoreTemplate = () => {
   );
 };
 
-
+/**
+ * @class
+ * @return {string} возвращает разметку кнопки "Show more"
+ */
 export default class ButtonShowMore extends AbstractComponent {
   getTemplate() {
     return createButtonShowMoreTemplate();

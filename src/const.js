@@ -28,4 +28,15 @@ const PROFILE_RATINGS = [
   `fan`,
 ];
 
-export {CONTROL_NAMES, EMOJI_NAMES, PROFILE_RATINGS};
+const FILM_LIST_CATEGORIES = {
+  RATE: {
+    title: `Top rated`,
+    container: `rated`,
+  },
+  COMMENT: {
+    title: `Most commented`,
+    container: `commented`
+  }
+};
+
+export {CONTROL_NAMES, EMOJI_NAMES, PROFILE_RATINGS, FILM_LIST_CATEGORIES};

@@ -4,11 +4,14 @@ const createMovieStaisticTemplate = (movieStaistic) => {
   return (`<p>${movieStaistic.length} movies inside</p>`);
 };
 
-
+/**
+ * @class
+ * @param {object} cards массив с карточками фильмов
+ */
 export default class MovieStaistic extends AbstractComponent {
-  constructor(movieStaistic) {
+  constructor(cards) {
     super();
-    this._movieStaistic = movieStaistic;
+    this._cards = cards;
 
   }
 

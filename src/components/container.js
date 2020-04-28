@@ -13,26 +13,14 @@ const createFilmsContainerTemplate = () => {
 
         </section>
 
-       <section class="films-list--extra">
-         <h2 class="films-list__title">Top rated</h2>
-
-         <div class="films-list__container">
-
-         </div>
-        </section>
-
-       <section class="films-list--extra">
-         <h2 class="films-list__title">Most commented</h2>
-
-         <div class="films-list__container">
-
-         </div>
-       </section>
      </section>`
   );
 };
 
-
+/**
+ * @class
+ * @return {string} возвращает контейнер для всех карточек фильмов
+ */
 export default class FilmsContainer extends AbstractComponent {
   getTemplate() {
     return createFilmsContainerTemplate();

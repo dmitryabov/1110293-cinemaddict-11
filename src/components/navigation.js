@@ -22,7 +22,10 @@ const createFilterTemplate = (filters) => {
   );
 };
 
-
+/**
+ * @class
+ * @param {object} filter массив с названием фильтров
+ */
 export default class Filter extends AbstractComponent {
   constructor(filter) {
     super();

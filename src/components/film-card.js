@@ -25,7 +25,10 @@ const createFilmCardTemplate = (card) => {
   </article>`
   );
 };
-
+/**
+ * @class
+ * @param {object} card  объект с данными о фильме
+ */
 export default class Card extends AbstractComponent {
   constructor(card) {
     super();

@@ -16,6 +16,6 @@ export default class MovieStaistic extends AbstractComponent {
   }
 
   getTemplate() {
-    return createMovieStaisticTemplate(this._movieStaistic);
+    return createMovieStaisticTemplate(this._cards);
   }
 }

@@ -6,7 +6,10 @@ const createNoFilmsTemplate = () => {
   );
 };
 
-
+/**
+ * @class
+ * @return {string} разметка с заголовком
+ */
 export default class NoFilms extends AbstractComponent {
   getTemplate() {
     return createNoFilmsTemplate();

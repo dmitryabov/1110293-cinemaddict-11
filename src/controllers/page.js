@@ -7,6 +7,7 @@ import Filter from '../components/navigation.js';
 import Sort, {SortType} from '../components/sorting';
 import {generateFilters} from '../mock/filter';
 import {FILM_LIST_CATEGORIES} from '../const';
+import MovieController from "./movie.js";
 
 
 const FILM_TOP_COUNT = 2;
@@ -15,9 +16,13 @@ const SHOWING_FILM_COUNT_ON_START = 5;
 const SHOWING_FILM_COUNT_BY_BUTTON = 5;
 
 
-const renderFilmCards = (filmCards, filmCardElement) => {
-  filmCards.forEach((filmCard) => {
-    renderFilmCard(filmCard, filmCardElement);
+const renderFilmCards = (filmCardElement, filmCards) => {
+  return filmCards.map((filmCard) => {
+    const movieController = new MovieController(filmCardElement);
+
+    movieController.render(filmCard);
+
+    return movieController;
   });
 };
 
@@ -50,6 +55,7 @@ export default class PageController {
     this._container = container;
 
     this._filmCards = [];
+    this._showedMovieControllers = [];
     this._showingFilmCount = SHOWING_FILM_COUNT_ON_START;
     this._sort = new Sort();
     this._noFilmsComponent = new NoFilmsComponent();
@@ -94,9 +100,16 @@ export default class PageController {
     const filmMostCommentedCards = this._filmCards.slice().sort((prev, next) => next.comment.length - prev.comment.length);
 
 
-    renderFilmCards(this._filmCards.slice(0, this._showingFilmCount), filmCardElement);
-    renderFilmCards(filmTopCards.slice(0, FILM_TOP_COUNT), filmsCardTopRated);
-    renderFilmCards(filmMostCommentedCards.slice(0, FILM_MOST_COMMENTED_COUNT), filmsCardMostCommented);
+    const newFilms = renderFilmCards(filmCardElement, this._filmCards.slice(0, this._showingFilmCount));
+    this._showedMovieControllers = this._showedMovieControllers.concat(newFilms);
+
+
+    const newTopFilms = renderFilmCards(filmsCardTopRated, filmTopCards.slice(0, FILM_TOP_COUNT));
+    this._showedMovieControllers = this._showedMovieControllers.concat(newTopFilms);
+
+
+    const newMostFilms = renderFilmCards(filmsCardMostCommented, filmMostCommentedCards.slice(0, FILM_MOST_COMMENTED_COUNT));
+    this._showedMovieControllers = this._showedMovieControllers.concat(newMostFilms);
 
     this._renderLoadMoreButton();
 
@@ -113,13 +126,13 @@ export default class PageController {
 
     this._buttonShowMore.setClickHandler(() => {
       const prevFilmCardCount = this._showingFilmCount;
-      const filmsContainer = container.querySelector(`.films`);
-      const filmCardElement = filmsContainer.querySelector(`.films-list`).querySelector(`.films-list__container`);
+      const filmCardElement = container.querySelector(`.films-list__container`);
       this._showingFilmCount = this._showingFilmCount + SHOWING_FILM_COUNT_BY_BUTTON;
 
       const sortedFilmCards = getSortedTasks(this._filmCards, this._sort.getSortType(), prevFilmCardCount, this._showingFilmCount);
+      const newTasks = renderFilmCards(filmCardElement, sortedFilmCards);
 
-      renderFilmCards(sortedFilmCards, filmCardElement);
+      this._showedMovieControllers = this._showedMovieControllers.concat(newTasks);
 
       if (this._showingFilmCount >= this._filmCards.length) {
         remove(this._buttonShowMore);
@@ -130,14 +143,14 @@ export default class PageController {
   _onSortTypeChange(sortType) {
     this._showingFilmCount = SHOWING_FILM_COUNT_BY_BUTTON;
     const container = this._container.querySelector(`.films-list`);
-    const filmsContainer = container.querySelector(`.films`);
-    const filmCardElement = filmsContainer.querySelector(`.films-list`).querySelector(`.films-list__container`);
+    const filmCardElement = container.querySelector(`.films-list__container`);
 
     const sortedFilmCards = getSortedTasks(this._filmCards, sortType, 0, this._showingFilmCount);
 
     filmCardElement.innerHTML = ``;
 
-    renderFilmCards(sortedFilmCards, filmCardElement);
+    const newTasks = renderFilmCards(filmCardElement, sortedFilmCards);
+    this._showedMovieControllers = newTasks;
 
     this._renderLoadMoreButton();
   }

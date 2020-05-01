@@ -1,4 +1,3 @@
-import {CONTROL_NAMES} from '../const.js';
 import {EMOJI_NAMES} from '../const.js';
 import AbstractComponent from "./abstract-component.js";
 
@@ -12,19 +11,6 @@ const createFilmDetailsTemplate = (rows) => {
            <td class="film-details__term">${term}</td>
            <td class="film-details__cell">${cell}</td>
          </tr>`
-      );
-    })
-    .join(`\n`);
-};
-
-
-const createFilmControlTemplate = (controls) => {
-  return controls
-    .map((control) => {
-      const {name, label} = control;
-      return (
-        ` <input type="checkbox" class="film-details__control-input visually-hidden" id="${name}" name="${name}">
-        <label for="${name}" class="film-details__control-label film-details__control-label--${name}">${label}</label>`
       );
     })
     .join(`\n`);
@@ -116,12 +102,14 @@ const createfilmDetailRows = (card) => {
 
 
 const createFilmDetailTemplate = (card) => {
-  const {filmTitle, poster, filmDescription, filmRating, filmTtitleOriginal, ageRating, comment} = card;
+  const {filmTitle, poster, filmDescription, filmRating, filmTtitleOriginal, ageRating, comment, isWatchlist, isWatched, isFavorites} = card;
   const filmDetailRows = createfilmDetailRows(card);
   const filmDetails = createFilmDetailsTemplate(filmDetailRows);
-  const filmControls = createFilmControlTemplate(CONTROL_NAMES);
   const emojis = createEmojiTemplate(EMOJI_NAMES);
   const filmComments = createCommentTemplate(comment);
+  const watchlistButton = isWatchlist ? `checked` : ``;
+  const watchedButton = isWatched ? `checked` : ``;
+  const favoritesButton = isFavorites ? `checked` : ``;
 
   return (
     `<section class="film-details">
@@ -154,7 +142,14 @@ const createFilmDetailTemplate = (card) => {
         </div>
       </div>
       <section class="film-details__controls">
-         ${filmControls}
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${watchlistButton}>
+        <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
+
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${watchedButton}>
+        <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
+
+        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${favoritesButton}>
+        <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
       </section>
         </div>
         <div class="form-details__bottom-container">
@@ -195,6 +190,22 @@ export default class FilmDetails extends AbstractComponent {
 
   setClickHandler(handler, selector) {
     this.getElement().querySelector(selector).addEventListener(`click`, handler);
+  }
+
+
+  setWatchlistButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watchlist`)
+      .addEventListener(`click`, handler);
+  }
+
+  setWatchedButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watched`)
+      .addEventListener(`click`, handler);
+  }
+
+  setFavoritesButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--favorite`)
+      .addEventListener(`click`, handler);
   }
 
 }

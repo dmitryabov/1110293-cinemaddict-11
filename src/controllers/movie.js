@@ -44,6 +44,16 @@ export default class MovieController {
     }, `.film-details__close`);
 
 
+    this._filmDetailsComponent.setWatchlistButtonClickHandler(() => {
+    });
+
+    this._filmDetailsComponent.setWatchedButtonClickHandler(() => {
+    });
+
+    this._filmDetailsComponent.setFavoritesButtonClickHandler(() => {
+    });
+
+
     render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
   }
 

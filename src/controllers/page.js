@@ -1,12 +1,8 @@
-import {append} from "../utils/appendChild.js";
-import {removeElement} from "../utils/removeChild.js";
 import NoFilmsComponent from "../components/no-films.js";
 import {render, remove, RenderPosition} from "../utils/render.js";
 import ButtonShowMore from '../components/button-show-more.js';
 import FilmsContainer from '../components/container.js';
 import FilmsExtraContainer from '../components/films-extra.js';
-import Card from '../components/film-card.js';
-import FilmDetails from '../components/film-details.js';
 import Filter from '../components/navigation.js';
 import Sort, {SortType} from '../components/sorting';
 import {generateFilters} from '../mock/filter';
@@ -17,54 +13,6 @@ const FILM_TOP_COUNT = 2;
 const FILM_MOST_COMMENTED_COUNT = 2;
 const SHOWING_FILM_COUNT_ON_START = 5;
 const SHOWING_FILM_COUNT_BY_BUTTON = 5;
-
-
-const renderFilmCard = (filmCard, place) => {
-  const bodyContainer = document.querySelector(`body`);
-
-  const appendFilmToDetail = () => {
-    append(bodyContainer, filmDetailsComponent);
-  };
-
-  const appendDetailToFilmCard = () => {
-    removeElement(bodyContainer, filmDetailsComponent);
-  };
-
-  const onEscKeyDown = (evt) => {
-    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-    if (isEscKey) {
-      appendDetailToFilmCard();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    }
-  };
-
-  const filmCardComponent = new Card(filmCard);
-  const filmDetailsComponent = new FilmDetails(filmCard);
-
-  const onElementClick = (appendElement) => {
-    appendElement();
-    document.addEventListener(`keydown`, onEscKeyDown);
-  };
-
-
-  filmCardComponent.setClickHandler(() => {
-    onElementClick(appendFilmToDetail);
-  }, `.film-card__poster`);
-
-  filmCardComponent.setClickHandler(() => {
-    onElementClick(appendFilmToDetail);
-  }, `.film-card__title`);
-
-  filmCardComponent.setClickHandler(() => {
-    onElementClick(appendFilmToDetail);
-  }, `.film-card__comments`);
-
-
-  filmDetailsComponent.setClickHandler(appendDetailToFilmCard, `.film-details__close`);
-
-  render(place, filmCardComponent, RenderPosition.BEFOREEND);
-};
 
 
 const renderFilmCards = (filmCards, filmCardElement) => {

@@ -6,8 +6,9 @@ import {removeElement} from "../utils/removeChild.js";
 
 
 export default class MovieController {
-  constructor(container) {
+  constructor(container, onDataChange) {
     this._container = container;
+    this._onDataChange = onDataChange;
 
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
 
@@ -36,6 +37,28 @@ export default class MovieController {
       document.addEventListener(`keydown`, this._onEscKeyDown);
     }, `.film-card__comments`);
 
+    this._filmCardComponent.setAddToWatchlistClick((evt) => {
+      evt.preventDefault();
+      this._onDataChange(this, filmCard, Object.assign({}, filmCard, {
+        isWatchlist: !filmCard.isWatchlist,
+      }));
+    });
+
+    this._filmCardComponent.setMarkAsWatchedClick((evt) => {
+      evt.preventDefault();
+      this._onDataChange(this, filmCard, Object.assign({}, filmCard, {
+        isWatched: !filmCard.isWatched,
+      }));
+    });
+
+    this._filmCardComponent.setAddToFavoriteClick((evt) => {
+      evt.preventDefault();
+      this._onDataChange(this, filmCard, Object.assign({}, filmCard, {
+        isFavorites: !filmCard.isFavorites,
+      }));
+
+    });
+
 
     this._filmDetailsComponent.setClickHandler((evt) => {
       evt.preventDefault();
@@ -45,6 +68,10 @@ export default class MovieController {
 
 
     this._filmDetailsComponent.setWatchlistButtonClickHandler(() => {
+      this._onDataChange(this, filmCard, Object.assign({}, filmCard, {
+        isWatchlist: !filmCard.isWatchlist,
+      }));
+
     });
 
     this._filmDetailsComponent.setWatchedButtonClickHandler(() => {

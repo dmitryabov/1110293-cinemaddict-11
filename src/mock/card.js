@@ -83,7 +83,7 @@ const generateCard = () => {
     filmRating: getRandomIntegerNumber(1, 10),
     filmTtitleOriginal: getRandomArrayItem(FILM_TITLE_ORIGINALS),
     ageRating: getRandomArrayItem(AGE_RATING),
-    isWatchlist: true,
+    isWatchlist: false,
     isWatched: true,
     isFavorites: true
   };

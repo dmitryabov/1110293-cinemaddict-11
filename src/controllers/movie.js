@@ -60,11 +60,11 @@ export default class MovieController {
     });
 
 
-    this._filmDetailsComponent.setClickHandler((evt) => {
+    this._filmDetailsComponent.setCloseButtonClickHandler((evt) => {
       evt.preventDefault();
       this._appendDetailToFilmCard();
       document.removeEventListener(`keydown`, this._onEscKeyDown);
-    }, `.film-details__close`);
+    });
 
 
     this._filmDetailsComponent.setWatchlistButtonClickHandler(() => {
@@ -75,9 +75,15 @@ export default class MovieController {
     });
 
     this._filmDetailsComponent.setWatchedButtonClickHandler(() => {
+      this._onDataChange(this, filmCard, Object.assign({}, filmCard, {
+        isWatched: !filmCard.isWatched,
+      }));
     });
 
     this._filmDetailsComponent.setFavoritesButtonClickHandler(() => {
+      this._onDataChange(this, filmCard, Object.assign({}, filmCard, {
+        isFavorites: !filmCard.isFavorites,
+      }));
     });
 
 

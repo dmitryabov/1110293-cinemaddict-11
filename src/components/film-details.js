@@ -100,16 +100,28 @@ const createfilmDetailRows = (card) => {
   ];
 };
 
+const filmControls = new Map([
+  [`watchlist`, `Add to watchlist`],
+  [`watched`, `Already watched`],
+  [`favorite`, `Add to favorites`]
+]);
+
+const createControlsMarkup = (control, isActive = false) => {
+  return (
+    `<input type="checkbox" ${isActive ? `checked` : ``} class="film-details__control-input visually-hidden" id="${control}" name="${control}">
+      <label for="${control}" class="film-details__control-label film-details__control-label--${control}">${filmControls.get(control)}</label>`
+  );
+};
 
 const createFilmDetailTemplate = (card) => {
-  const {filmTitle, poster, filmDescription, filmRating, filmTtitleOriginal, ageRating, comment, isWatchlist, isWatched, isFavorites} = card;
+  const {filmTitle, poster, filmDescription, filmRating, filmTtitleOriginal, ageRating, comment} = card;
   const filmDetailRows = createfilmDetailRows(card);
   const filmDetails = createFilmDetailsTemplate(filmDetailRows);
   const emojis = createEmojiTemplate(EMOJI_NAMES);
   const filmComments = createCommentTemplate(comment);
-  const watchlistButton = isWatchlist ? `checked` : ``;
-  const watchedButton = isWatched ? `checked` : ``;
-  const favoritesButton = isFavorites ? `checked` : ``;
+  const watchListControl = createControlsMarkup(`watchlist`, card.isWatchlist);
+  const watchedControl = createControlsMarkup(`watched`, card.isWatched);
+  const favoriteControl = createControlsMarkup(`favorite`, card.isFavorites);
 
   return (
     `<section class="film-details">
@@ -142,14 +154,9 @@ const createFilmDetailTemplate = (card) => {
         </div>
       </div>
       <section class="film-details__controls">
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${watchlistButton}>
-        <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
-
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${watchedButton}>
-        <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
-
-        <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${favoritesButton}>
-        <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
+        ${watchListControl}
+        ${watchedControl}
+        ${favoriteControl}
       </section>
         </div>
         <div class="form-details__bottom-container">
@@ -181,11 +188,21 @@ export default class FilmDetails extends AbstractSmartComponent {
   constructor(card) {
     super();
     this._card = card;
-    this._watchlistButtonHandler = null;
-    this._watchedButtonHandler = null;
-    this._favoritesButtonHandler = null;
 
-    this._subscribeOnEvents();
+    this._addWatchListHandler = null;
+    this._markAsWatchedHandler = null;
+    this._favoriteHandler = null;
+    this._closeButtonHandler = null;
+
+
+    this._element = this.getElement();
+  }
+
+  recoveryListeners() {
+    this.setWatchlistButtonClickHandler(this._addWatchListHandler);
+    this.setWatchedButtonClickHandler(this._markAsWatchedHandler);
+    this.setFavoritesButtonClickHandler(this._favoriteHandler);
+    this.setCloseButtonClickHandler(this._closeButtonHandler);
 
   }
 
@@ -193,40 +210,30 @@ export default class FilmDetails extends AbstractSmartComponent {
     return createFilmDetailTemplate(this._card);
   }
 
-  recoveryListeners() {
-    this._subscribeOnEvents();
-  }
 
   setCloseButtonClickHandler(handler) {
+    this._element.querySelector(`.film-details__close`).addEventListener(`click`, handler);
+
     this._closeButtonHandler = handler;
-    this.getElement().querySelector(`.film-details__close`).addEventListener(`click`, handler);
   }
 
 
   setWatchlistButtonClickHandler(handler) {
-    this._watchlistButtonHandler = handler;
-    this.getElement().querySelector(`.film-details__control-label--watchlist`)
-      .addEventListener(`click`, handler);
+    this._element.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, handler);
+
+    this._addWatchListHandler = handler;
   }
 
   setWatchedButtonClickHandler(handler) {
-    this._watchedButtonHandler = handler;
-    this.getElement().querySelector(`.film-details__control-label--watched`)
-      .addEventListener(`click`, handler);
+    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, handler);
+
+    this._markAsWatchedHandler = handler;
   }
 
   setFavoritesButtonClickHandler(handler) {
-    this._favoritesButtonHandler = handler;
-    this.getElement().querySelector(`.film-details__control-label--favorite`)
-      .addEventListener(`click`, handler);
-  }
+    this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, handler);
 
-  _subscribeOnEvents() {
-    this.setCloseButtonClickHandler(this._closeButtonHandler);
-    this.setWatchlistButtonClickHandler(this._watchlistButtonHandler);
-    this.setWatchedButtonClickHandler(this._watchedButtonHandler);
-    this.setFavoritesButtonClickHandler(this._favoritesButtonHandler);
-
+    this._favoriteHandler = handler;
   }
 
 }

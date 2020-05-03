@@ -1,14 +1,20 @@
 import Card from '../components/film-card.js';
 import FilmDetails from '../components/film-details.js';
-import {render, RenderPosition} from "../utils/render.js";
+import {render, replace} from "../utils/render.js";
 import {append} from "../utils/appendChild.js";
 import {removeElement} from "../utils/removeChild.js";
 
+const Mode = {
+  DEFAULT: `default`,
+  OPEN: `open`,
+};
 
 export default class MovieController {
-  constructor(container, onDataChange) {
+  constructor(container, onDataChange, onViewChange) {
     this._container = container;
+    this._mode = Mode.DEFAULT;
     this._onDataChange = onDataChange;
+    this._onViewChange = onViewChange;
 
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
 
@@ -18,6 +24,11 @@ export default class MovieController {
   }
 
   render(filmCard) {
+    this._filmCard = filmCard;
+
+    const oldFilmComponent = this._filmCardComponent;
+    const oldFilmDetailsComponent = this._filmDetailsComponent;
+
 
     this._filmCardComponent = new Card(filmCard);
     this._filmDetailsComponent = new FilmDetails(filmCard);
@@ -37,9 +48,10 @@ export default class MovieController {
       document.addEventListener(`keydown`, this._onEscKeyDown);
     }, `.film-card__comments`);
 
+
     this._filmCardComponent.setAddToWatchlistClick((evt) => {
       evt.preventDefault();
-      this._onDataChange(this, filmCard, Object.assign({}, filmCard, {
+      this._onDataChange(this, this._filmCard, Object.assign({}, this._filmCard, {
         isWatchlist: !filmCard.isWatchlist,
       }));
     });
@@ -87,7 +99,13 @@ export default class MovieController {
     });
 
 
-    render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
+    if (oldFilmComponent && oldFilmDetailsComponent) {
+      replace(this._filmCardComponent, oldFilmComponent);
+      replace(this._filmDetailsComponent, oldFilmDetailsComponent);
+    } else {
+      render(this._container, this._filmCardComponent);
+    }
+
   }
 
   _appendFilmToDetail() {

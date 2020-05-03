@@ -35,17 +35,14 @@ export default class MovieController {
 
     this._filmCardComponent.setClickHandler(() => {
       this._appendFilmToDetail();
-      document.addEventListener(`keydown`, this._onEscKeyDown);
     }, `.film-card__poster`);
 
     this._filmCardComponent.setClickHandler(() => {
       this._appendFilmToDetail();
-      document.addEventListener(`keydown`, this._onEscKeyDown);
     }, `.film-card__title`);
 
     this._filmCardComponent.setClickHandler(() => {
       this._appendFilmToDetail();
-      document.addEventListener(`keydown`, this._onEscKeyDown);
     }, `.film-card__comments`);
 
 
@@ -75,7 +72,6 @@ export default class MovieController {
     this._filmDetailsComponent.setCloseButtonClickHandler((evt) => {
       evt.preventDefault();
       this._appendDetailToFilmCard();
-      document.removeEventListener(`keydown`, this._onEscKeyDown);
     });
 
 
@@ -109,12 +105,24 @@ export default class MovieController {
   }
 
   _appendFilmToDetail() {
+    this._onViewChange();
     append(document.querySelector(`body`), this._filmDetailsComponent);
+    document.addEventListener(`keydown`, this._onEscKeyDown);
+    this._mode = Mode.OPEN;
+  }
+
+  setDefaultView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._appendDetailToFilmCard();
+    }
   }
 
   _appendDetailToFilmCard() {
     removeElement(document.querySelector(`body`), this._filmDetailsComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
+    this._mode = Mode.DEFAULT;
   }
+
 
   _onEscKeyDown(evt) {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;

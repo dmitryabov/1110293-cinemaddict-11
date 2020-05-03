@@ -1,6 +1,5 @@
-import {CONTROL_NAMES} from '../const.js';
 import {EMOJI_NAMES} from '../const.js';
-import AbstractComponent from "./abstract-component.js";
+import AbstractSmartComponent from "./abstract-smart-component.js";
 
 
 const createFilmDetailsTemplate = (rows) => {
@@ -12,19 +11,6 @@ const createFilmDetailsTemplate = (rows) => {
            <td class="film-details__term">${term}</td>
            <td class="film-details__cell">${cell}</td>
          </tr>`
-      );
-    })
-    .join(`\n`);
-};
-
-
-const createFilmControlTemplate = (controls) => {
-  return controls
-    .map((control) => {
-      const {name, label} = control;
-      return (
-        ` <input type="checkbox" class="film-details__control-input visually-hidden" id="${name}" name="${name}">
-        <label for="${name}" class="film-details__control-label film-details__control-label--${name}">${label}</label>`
       );
     })
     .join(`\n`);
@@ -114,14 +100,28 @@ const createfilmDetailRows = (card) => {
   ];
 };
 
+const filmControls = new Map([
+  [`watchlist`, `Add to watchlist`],
+  [`watched`, `Already watched`],
+  [`favorite`, `Add to favorites`]
+]);
+
+const createControlsMarkup = (control, isActive = false) => {
+  return (
+    `<input type="checkbox" ${isActive ? `checked` : ``} class="film-details__control-input visually-hidden" id="${control}" name="${control}">
+      <label for="${control}" class="film-details__control-label film-details__control-label--${control}">${filmControls.get(control)}</label>`
+  );
+};
 
 const createFilmDetailTemplate = (card) => {
   const {filmTitle, poster, filmDescription, filmRating, filmTtitleOriginal, ageRating, comment} = card;
   const filmDetailRows = createfilmDetailRows(card);
   const filmDetails = createFilmDetailsTemplate(filmDetailRows);
-  const filmControls = createFilmControlTemplate(CONTROL_NAMES);
   const emojis = createEmojiTemplate(EMOJI_NAMES);
   const filmComments = createCommentTemplate(comment);
+  const watchListControl = createControlsMarkup(`watchlist`, card.isWatchlist);
+  const watchedControl = createControlsMarkup(`watched`, card.isWatched);
+  const favoriteControl = createControlsMarkup(`favorite`, card.isFavorites);
 
   return (
     `<section class="film-details">
@@ -154,7 +154,9 @@ const createFilmDetailTemplate = (card) => {
         </div>
       </div>
       <section class="film-details__controls">
-         ${filmControls}
+        ${watchListControl}
+        ${watchedControl}
+        ${favoriteControl}
       </section>
         </div>
         <div class="form-details__bottom-container">
@@ -182,10 +184,25 @@ const createFilmDetailTemplate = (card) => {
  * @class
  * @param {object} card объект с данными о фильме
  */
-export default class FilmDetails extends AbstractComponent {
+export default class FilmDetails extends AbstractSmartComponent {
   constructor(card) {
     super();
     this._card = card;
+
+    this._addWatchListHandler = null;
+    this._markAsWatchedHandler = null;
+    this._favoriteHandler = null;
+    this._closeButtonHandler = null;
+
+
+    this._element = this.getElement();
+  }
+
+  recoveryListeners() {
+    this.setWatchlistButtonClickHandler(this._addWatchListHandler);
+    this.setWatchedButtonClickHandler(this._markAsWatchedHandler);
+    this.setFavoritesButtonClickHandler(this._favoriteHandler);
+    this.setCloseButtonClickHandler(this._closeButtonHandler);
 
   }
 
@@ -193,8 +210,30 @@ export default class FilmDetails extends AbstractComponent {
     return createFilmDetailTemplate(this._card);
   }
 
-  setClickHandler(handler, selector) {
-    this.getElement().querySelector(selector).addEventListener(`click`, handler);
+
+  setCloseButtonClickHandler(handler) {
+    this._element.querySelector(`.film-details__close`).addEventListener(`click`, handler);
+
+    this._closeButtonHandler = handler;
+  }
+
+
+  setWatchlistButtonClickHandler(handler) {
+    this._element.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, handler);
+
+    this._addWatchListHandler = handler;
+  }
+
+  setWatchedButtonClickHandler(handler) {
+    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, handler);
+
+    this._markAsWatchedHandler = handler;
+  }
+
+  setFavoritesButtonClickHandler(handler) {
+    this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, handler);
+
+    this._favoriteHandler = handler;
   }
 
 }

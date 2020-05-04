@@ -1,4 +1,5 @@
 import AbstractComponent from "./abstract-component.js";
+import {formatDate} from "../utils/common.js";
 
 const createFilmCardTemplate = (card) => {
   const {filmTitle, poster, filmDescription, filmRating,
@@ -7,6 +8,7 @@ const createFilmCardTemplate = (card) => {
   const watchlistButton = isWatchlist ? `film-card__controls-item--active` : ``;
   const watchedButton = isWatched ? `film-card__controls-item--active` : ``;
   const favoritesButton = isFavorites ? `film-card__controls-item--active` : ``;
+  const date = formatDate(releaseDate);
 
 
   return (
@@ -14,7 +16,7 @@ const createFilmCardTemplate = (card) => {
     <h3 class="film-card__title">${filmTitle}</h3>
     <p class="film-card__rating">${filmRating}</p>
     <p class="film-card__info">
-      <span class="film-card__year">${releaseDate}</span>
+      <span class="film-card__year">${date}</span>
       <span class="film-card__duration">${runtime}</span>
       <span class="film-card__genre">${genres}</span>
     </p>

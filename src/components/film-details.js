@@ -1,5 +1,6 @@
 import {EMOJI_NAMES} from '../const.js';
 import AbstractSmartComponent from "./abstract-smart-component.js";
+import {formatDate} from "../utils/common.js";
 
 
 const createFilmDetailsTemplate = (rows) => {
@@ -68,6 +69,7 @@ const createFilmGenreTemplate = (genres) => {
 
 
 const createfilmDetailRows = (card) => {
+  const date = formatDate(card.releaseDate);
   return [
     {
       cell: `${card.director}`,
@@ -82,7 +84,7 @@ const createfilmDetailRows = (card) => {
       term: `${card.actor.length > 1 ? `Actors` : `Actor`}`,
     },
     {
-      cell: `${card.releaseDate}`,
+      cell: `${date}`,
       term: `Release`,
     },
     {

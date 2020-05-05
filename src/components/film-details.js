@@ -1,6 +1,7 @@
 import {EMOJI_NAMES} from '../const.js';
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import {formatDate} from "../utils/common.js";
+import FilmCommentComponent from '../components/film-comments';
 
 
 const createFilmDetailsTemplate = (rows) => {
@@ -120,10 +121,10 @@ const createFilmDetailTemplate = (card) => {
   const filmDetailRows = createfilmDetailRows(card);
   const filmDetails = createFilmDetailsTemplate(filmDetailRows);
   const emojis = createEmojiTemplate(EMOJI_NAMES);
-  const filmComments = createCommentTemplate(comment);
   const watchListControl = createControlsMarkup(`watchlist`, card.isWatchlist);
   const watchedControl = createControlsMarkup(`watched`, card.isWatched);
   const favoriteControl = createControlsMarkup(`favorite`, card.isFavorites);
+  const commentsMarkup = comment.map((comme) => new FilmCommentComponent(comme).getTemplate()).join(`\n`);
 
   return (
     `<section class="film-details">
@@ -165,7 +166,7 @@ const createFilmDetailTemplate = (card) => {
           <section class="film-details__comments-wrap">
             <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${card.comment.length}</span></h3>
             <ul class="film-details__comments-list">
-                ${filmComments}
+                ${commentsMarkup}
             </ul>
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>

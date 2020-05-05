@@ -1,3 +1,5 @@
+import {generateComments} from './comment.js';
+
 const DIRECTORS = [`Guns Akimbo`, `Anthony Mann`, `Martians Momar`, `Richard Jewell`];
 
 const WRITERS = [`Anne Wigton`, `Heinz Herald`, `Richard Weil`, `Martians Momar`, `Richard Jewell`];
@@ -31,13 +33,6 @@ const FILM_TITLE_ORIGINALS = [`Guns Akimbo`, `Bombshell`, `Swallow`, `The Song o
 
 const AGE_RATING = [`6+`, `12+`, `0+`, `18+`];
 
-const EMOJIS = [`smile`, `sleeping`, `puke`, `angry`];
-
-const COMMENT_TEXT = [`Interesting setting and cast`, `Boooooooring`, `Very old. Meh`, `Almost two hours? Seriously?`];
-
-const AUTHORS = [`Jon`, `Ban`, `Mickle`, `Andry`];
-
-const COMMENT_DAYS = [`2019/02/31 03:519`, `2019/01/01 44:59`, `2011/14/41 23:59`, `2019/11/11 13:29`];
 
 const RELEASE_DAYS = [`11 June 1905`, `30 May 1911`, `12 April 1988`, `01 April 1995`];
 
@@ -52,23 +47,9 @@ const getRandomIntegerNumber = (min, max) => {
 };
 
 
-const generateComments = (numberOfComments) => {
-  const comments = [];
-  for (let i = 0; i < numberOfComments; i++) {
-    const filmComments = {
-      emoji: getRandomArrayItem(EMOJIS),
-      text: getRandomArrayItem(COMMENT_TEXT),
-      author: getRandomArrayItem(AUTHORS),
-      commentDay: getRandomArrayItem(COMMENT_DAYS)
-    };
-    comments.push(filmComments);
-  }
-  return comments;
-};
-
-
 const generateCard = () => {
   return {
+    id: String(new Date() + Math.random()),
     director: getRandomArrayItem(DIRECTORS),
     writer: WRITERS.slice(getRandomIntegerNumber(1, WRITERS.length)),
     actor: ACTORS.slice(getRandomIntegerNumber(1, ACTORS.length)),
@@ -79,7 +60,7 @@ const generateCard = () => {
     filmDescription: getRandomArrayItem(FILM_DESCRIPTIONS),
     filmTitle: getRandomArrayItem(FILM_TITLES),
     poster: FILM_POSTERS[getRandomIntegerNumber(1, 5)],
-    comment: generateComments(getRandomIntegerNumber(1, 10)),
+    comment: generateComments(),
     filmRating: getRandomIntegerNumber(1, 10),
     filmTtitleOriginal: getRandomArrayItem(FILM_TITLE_ORIGINALS),
     ageRating: getRandomArrayItem(AGE_RATING),

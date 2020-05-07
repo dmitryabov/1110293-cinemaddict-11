@@ -39,4 +39,13 @@ const FILM_LIST_CATEGORIES = {
   }
 };
 
-export {CONTROL_NAMES, EMOJI_NAMES, PROFILE_RATINGS, FILM_LIST_CATEGORIES};
+
+const FilterType = {
+  ALL: `all`,
+  WATCHLIST: `Watchlist`,
+  HISTORY: `History`,
+  FAVORITES: `Favorites`,
+};
+
+
+export {CONTROL_NAMES, EMOJI_NAMES, PROFILE_RATINGS, FILM_LIST_CATEGORIES, FilterType};

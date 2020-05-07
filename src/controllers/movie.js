@@ -3,6 +3,7 @@ import FilmDetails from '../components/film-details.js';
 import {render, replace} from "../utils/render.js";
 import {append} from "../utils/appendChild.js";
 import {removeElement} from "../utils/removeChild.js";
+import {remove} from "../utils/render.js";
 
 const Mode = {
   DEFAULT: `default`,
@@ -104,6 +105,19 @@ export default class MovieController {
 
   }
 
+
+  setDefaultView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._appendDetailToFilmCard();
+    }
+  }
+
+  destroy() {
+    remove(this._filmDetailsComponent);
+    remove(this._filmCardComponent);
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
+  }
+
   _appendFilmToDetail() {
     this._onViewChange();
     append(document.querySelector(`body`), this._filmDetailsComponent);
@@ -111,11 +125,6 @@ export default class MovieController {
     this._mode = Mode.OPEN;
   }
 
-  setDefaultView() {
-    if (this._mode !== Mode.DEFAULT) {
-      this._appendDetailToFilmCard();
-    }
-  }
 
   _appendDetailToFilmCard() {
     removeElement(document.querySelector(`body`), this._filmDetailsComponent);

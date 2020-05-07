@@ -3,9 +3,7 @@ import {render, remove, RenderPosition} from "../utils/render.js";
 import ButtonShowMore from '../components/button-show-more.js';
 import FilmsContainer from '../components/container.js';
 import FilmsExtraContainer from '../components/films-extra.js';
-import Filter from '../components/navigation.js';
 import Sort, {SortType} from '../components/sorting';
-import {generateFilters} from '../mock/filter';
 import {FILM_LIST_CATEGORIES} from '../const';
 import MovieController from "./movie.js";
 
@@ -67,10 +65,12 @@ export default class PageController {
 
     this._onDataChange = this._onDataChange.bind(this);
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
+    this._onFilterChange = this._onFilterChange.bind(this);
 
     this._onViewChange = this._onViewChange.bind(this);
 
     this._sort.setSortTypeChangeHandler(this._onSortTypeChange);
+    this._filmsModel.setFilterChangeHandler(this._onFilterChange);
 
   }
 
@@ -79,8 +79,6 @@ export default class PageController {
 
     const container = this._container;
     const isAllFilmCardsArchived = filmCards.every((film) => film.isArchive);
-    const filters = generateFilters();
-    render(container, new Filter(filters), RenderPosition.BEFOREEND);
     render(container, this._sort, RenderPosition.BEFOREEND);
 
     if (isAllFilmCardsArchived) {
@@ -97,30 +95,42 @@ export default class PageController {
     render(filmsContainer, this._filmsCommentContainer, RenderPosition.BEFOREEND);
     render(filmsContainer, this._filmsExtraContainer, RenderPosition.BEFOREEND);
 
-    this._renderFilms(filmCards.slice(0, this._showingFilmCount), filmsContainer);
-    this._renderTopFilms(filmTopCards.slice(0, FILM_TOP_COUNT), filmsContainer);
-    this._renderMostFilms(filmMostCommentedCards.slice(0, FILM_MOST_COMMENTED_COUNT), filmsContainer);
+    this._renderFilms(filmCards.slice(0, this._showingFilmCount));
+    this._renderTopFilms(filmTopCards.slice(0, FILM_TOP_COUNT));
+    this._renderMostFilms(filmMostCommentedCards.slice(0, FILM_MOST_COMMENTED_COUNT));
 
     this._renderLoadMoreButton();
   }
 
-  _renderFilms(filmCards, filmsContainer) {
-    const filmCardElement = filmsContainer.querySelector(`.films-list`).querySelector(`.films-list__container`);
+  _removeMovies() {
+    this._showedMovieControllers.forEach((movieController) => movieController.destroy());
+    this._showedMovieControllers = [];
+  }
+
+  _renderFilms(filmCards) {
+    // const filmCardElement = this._filmsContainer.querySelector(`.films-list`).querySelector(`.films-list__container`);
+    const filmCardElement = this._filmsContainer.getElement().querySelector(`.films-list`).querySelector(`.films-list__container`);
     const newFilms = renderFilmCards(filmCardElement, filmCards, this._onDataChange, this._onViewChange);
     this._showedMovieControllers = this._showedMovieControllers.concat(newFilms);
     this._showingFilmCount = this._showedMovieControllers.length;
   }
 
-  _renderTopFilms(filmCards, filmsContainer) {
-    const filmsCardTopRated = filmsContainer.querySelector(`.rated`);
+  _renderTopFilms(filmCards) {
+    const filmsCardTopRated = this._filmsContainer.getElement().querySelector(`.rated`);
     const newTopFilms = renderFilmCards(filmsCardTopRated, filmCards, this._onDataChange, this._onViewChange);
     this._showedMovieControllers = this._showedMovieControllers.concat(newTopFilms);
   }
 
-  _renderMostFilms(filmCards, filmsContainer) {
-    const filmsCardMostCommented = filmsContainer.querySelector(`.commented`);
+  _renderMostFilms(filmCards) {
+    const filmsCardMostCommented = this._filmsContainer.getElement().querySelector(`.commented`);
     const newMostFilms = renderFilmCards(filmsCardMostCommented, filmCards, this._onViewChange);
     this._showedMovieControllers = this._showedMovieControllers.concat(newMostFilms);
+  }
+
+  _updateTasks(count) {
+    this._removeMovies();
+    this._renderFilms(this._filmsModel.getMovies().slice(0, count));
+    this._renderLoadMoreButton();
   }
 
 
@@ -183,6 +193,10 @@ export default class PageController {
     this._showedMovieControllers = newFilms;
 
     this._renderLoadMoreButton();
+  }
+
+  _onFilterChange() {
+    this._updateTasks(SHOWING_FILM_COUNT_ON_START);
   }
 
 }

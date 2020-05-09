@@ -4,7 +4,7 @@ const COMMENT_TEXT = [`Interesting setting and cast`, `Boooooooring`, `Very old.
 
 const AUTHORS = [`Jon`, `Ban`, `Mickle`, `Andry`];
 
-const COMMENT_DAYS = [`2019/02/31 03:519`, `2019/01/01 44:59`, `2011/14/41 23:59`, `2019/11/11 13:29`];
+const COMMENT_DAYS = [`2020/01/11 11:19`, `2019/12/12 10:20`, `2020/02/11 10:19`, `2019/11/11 13:29`];
 
 const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
@@ -19,8 +19,8 @@ const getRandomArrayItem = (array) => {
 const generateComment = () => {
   return {
     id: String(new Date() + Math.random()),
-    emoji: getRandomArrayItem(EMOJIS),
     text: getRandomArrayItem(COMMENT_TEXT),
+    emoji: getRandomArrayItem(EMOJIS) + `.png`,
     author: getRandomArrayItem(AUTHORS),
     date: getRandomArrayItem(COMMENT_DAYS)
   };
@@ -32,4 +32,4 @@ const generateComments = () => {
     .map(generateComment);
 };
 
-export {generateComments};
+export {generateComments, EMOJIS};

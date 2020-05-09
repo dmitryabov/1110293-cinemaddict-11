@@ -1,7 +1,6 @@
-import {EMOJI_NAMES} from '../const.js';
+
 import AbstractSmartComponent from "./abstract-smart-component.js";
 import {formatDate} from "../utils/common.js";
-import FilmCommentComponent from '../components/film-comments';
 
 
 const createFilmDetailsTemplate = (rows) => {
@@ -18,43 +17,6 @@ const createFilmDetailsTemplate = (rows) => {
     .join(`\n`);
 };
 
-
-const createEmojiTemplate = (emojiArrays) => {
-  return emojiArrays
-    .map((name) => {
-      return (
-        `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${name}" value="${name}">
-        <label class="film-details__emoji-label" for="emoji-${name}">
-        <img src="./images/emoji/${name}.png" width="30" height="30" alt="emoji">
-      </label>`
-      );
-    })
-    .join(`\n`);
-};
-
-
-const createCommentTemplate = (comments) => {
-  return comments
-  .map((comment) => {
-    const {emoji, text, author, commentDay} = comment;
-    return (
-      `<li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/${emoji}.png" width="55" height="55" alt="emoji-${emoji}">
-           </span>
-           <div>
-             <p class="film-details__comment-text">${text}</p>
-             <p class="film-details__comment-info">
-               <span class="film-details__comment-author">${author}</span>
-               <span class="film-details__comment-day">${commentDay}</span>
-               <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-       </li>`
-    );
-  })
-  .join(`\n`);
-};
 
 const createFilmGenre = (genre) => {
   return (
@@ -117,14 +79,13 @@ const createControlsMarkup = (control, isActive = false) => {
 };
 
 const createFilmDetailTemplate = (card) => {
-  const {filmTitle, poster, filmDescription, filmRating, filmTtitleOriginal, ageRating, comment} = card;
+  const {filmTitle, poster, filmDescription, filmRating, filmTtitleOriginal, ageRating} = card;
   const filmDetailRows = createfilmDetailRows(card);
   const filmDetails = createFilmDetailsTemplate(filmDetailRows);
-  const emojis = createEmojiTemplate(EMOJI_NAMES);
   const watchListControl = createControlsMarkup(`watchlist`, card.isWatchlist);
   const watchedControl = createControlsMarkup(`watched`, card.isWatched);
   const favoriteControl = createControlsMarkup(`favorite`, card.isFavorites);
-  const commentsMarkup = comment.map((comme) => new FilmCommentComponent(comme).getTemplate()).join(`\n`);
+
 
   return (
     `<section class="film-details">
@@ -163,21 +124,7 @@ const createFilmDetailTemplate = (card) => {
       </section>
         </div>
         <div class="form-details__bottom-container">
-          <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${card.comment.length}</span></h3>
-            <ul class="film-details__comments-list">
-                ${commentsMarkup}
-            </ul>
-            <div class="film-details__new-comment">
-              <div for="add-emoji" class="film-details__add-emoji-label"></div>
-              <label class="film-details__comment-label">
-                <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
-              </label>
-              <div class="film-details__emoji-list">
-                ${emojis}
-              </div>
-            </div>
-          </section>
+
         </div>
       </form>
     </section>`

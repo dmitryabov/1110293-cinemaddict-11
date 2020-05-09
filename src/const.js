@@ -47,5 +47,11 @@ const FilterType = {
   FAVORITES: `Favorites`,
 };
 
+const Keys = {
+  ESC_KEY: `Escape`,
+  CTRL_KEY: `Control`,
+  ENTER_KEY: `Enter`,
+};
 
-export {CONTROL_NAMES, EMOJI_NAMES, PROFILE_RATINGS, FILM_LIST_CATEGORIES, FilterType};
+
+export {CONTROL_NAMES, EMOJI_NAMES, PROFILE_RATINGS, FILM_LIST_CATEGORIES, FilterType, Keys};

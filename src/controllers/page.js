@@ -108,7 +108,6 @@ export default class PageController {
   }
 
   _renderFilms(filmCards) {
-    // const filmCardElement = this._filmsContainer.querySelector(`.films-list`).querySelector(`.films-list__container`);
     const filmCardElement = this._filmsContainer.getElement().querySelector(`.films-list`).querySelector(`.films-list__container`);
     const newFilms = renderFilmCards(filmCardElement, filmCards, this._onDataChange, this._onViewChange);
     this._showedMovieControllers = this._showedMovieControllers.concat(newFilms);
@@ -123,13 +122,17 @@ export default class PageController {
 
   _renderMostFilms(filmCards) {
     const filmsCardMostCommented = this._filmsContainer.getElement().querySelector(`.commented`);
-    const newMostFilms = renderFilmCards(filmsCardMostCommented, filmCards, this._onViewChange);
+    const newMostFilms = renderFilmCards(filmsCardMostCommented, filmCards, this._onDataChange, this._onViewChange);
     this._showedMovieControllers = this._showedMovieControllers.concat(newMostFilms);
   }
 
   _updateTasks(count) {
     this._removeMovies();
     this._renderFilms(this._filmsModel.getMovies().slice(0, count));
+    const filmTopCards = this._filmsModel.getMovies().slice().sort((prev, next) => next.filmRating - prev.filmRating);
+    this._renderTopFilms(filmTopCards.slice(0, FILM_TOP_COUNT));
+    const filmMostCommentedCards = this._filmsModel.getMovies().slice().sort((prev, next) => next.comment.length - prev.comment.length);
+    this._renderMostFilms(filmMostCommentedCards.slice(0, FILM_MOST_COMMENTED_COUNT));
     this._renderLoadMoreButton();
   }
 

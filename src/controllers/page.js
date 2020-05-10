@@ -168,6 +168,14 @@ export default class PageController {
     });
   }
 
+  hide() {
+    this._container.hide();
+  }
+
+  show() {
+    this._container.show();
+  }
+
 
   _onDataChange(movieController, oldData, newData) {
     const isSuccess = this._filmsModel.updateMovie(oldData.id, newData);

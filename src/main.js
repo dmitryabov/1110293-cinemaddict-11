@@ -6,6 +6,7 @@ import {render, RenderPosition} from "./utils/render.js";
 import PageController from "./controllers/page.js";
 import Movies from "./moment/movies.js";
 import FilterController from "./controllers/filter.js";
+import Statistics from "./components/statistics.js";
 
 
 const FILM_CARD_COUNT = 25;
@@ -27,4 +28,10 @@ filterController.render();
 
 const pageController = new PageController(mainContainer, filmsModel);
 pageController.render(filmCards);
+
+
+const statisticsComponent = new Statistics();
+
+render(mainContainer, statisticsComponent, RenderPosition.BEFOREEND);
+// statisticsComponent.hide();
 

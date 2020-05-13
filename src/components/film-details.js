@@ -55,8 +55,8 @@ const createfilmDetailRows = (card) => {
       term: `Runtime`,
     },
     {
-      cell: `${card.country.join(`, `)}`,
-      term: `${card.country.length > 1 ? `Countries` : `Country`}`,
+      cell: `${card.country}`,
+      term: `Country`,
     },
     {
       cell: `${createFilmGenreTemplate(card.genres)}`,
@@ -96,7 +96,7 @@ const createFilmDetailTemplate = (card) => {
         </div>
         <div class="film-details__info-wrap">
           <div class="film-details__poster">
-            <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
+            <img class="film-details__poster-img" src="./${poster}" alt="">
             <p class="film-details__age">${ageRating}</p>
           </div>
         <div class="film-details__info">

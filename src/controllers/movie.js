@@ -2,7 +2,6 @@ import Card from '../components/film-card.js';
 import FilmDetails from '../components/film-details.js';
 import {render, replace, RenderPosition} from "../utils/render.js";
 import {append} from "../utils/appendChild.js";
-import {removeElement} from "../utils/removeChild.js";
 import {remove} from "../utils/render.js";
 import {Keys} from "../const.js";
 import CommentsBoardComponent from "../components/comments-board.js";

@@ -7,3 +7,4 @@ export const formatDate = (date) => {
 export const formatTime = (date) => {
   return moment(date).format(`hh:mm`);
 };
+

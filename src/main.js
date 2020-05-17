@@ -3,7 +3,7 @@ import Profile from './components/profile.js';
 import {profileInformations} from "./mock/profile-rating.js";
 import {render, RenderPosition} from "./utils/render.js";
 import PageController from "./controllers/page.js";
-import Movies from "./moment/movies.js";
+import Movies from "./models/movies.js";
 import FilterController from "./controllers/filter.js";
 import API from "./api.js";
 
@@ -17,7 +17,7 @@ const mainContainer = document.querySelector(`.main`);
 const api = new API(AUTHORIZATION);
 const filmsModel = new Movies();
 const filterController = new FilterController(mainContainer, filmsModel);
-const pageController = new PageController(mainContainer, filmsModel);
+const pageController = new PageController(mainContainer, filmsModel, api);
 
 
 render(siteHeaderElement, new Profile(profileInformations), RenderPosition.BEFOREEND);

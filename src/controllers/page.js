@@ -49,9 +49,10 @@ const getSortedTasks = (films, sortType, from, to) => {
  * @param {Element} container селектор на DOM элемент
  */
 export default class PageController {
-  constructor(container, filmsModel) {
+  constructor(container, filmsModel, api) {
     this._container = container;
     this._filmsModel = filmsModel;
+    this._api = api;
 
     this._filmCards = [];
     this._showedMovieControllers = [];
@@ -126,7 +127,7 @@ export default class PageController {
     this._showedMovieControllers = this._showedMovieControllers.concat(newMostFilms);
   }
 
-  _updateTasks(count) {
+  _updateFilms(count) {
     this._removeMovies();
     this._renderFilms(this._filmsModel.getMovies().slice(0, count));
     const filmTopCards = this._filmsModel.getMovies().slice().sort((prev, next) => next.filmRating - prev.filmRating);
@@ -176,13 +177,17 @@ export default class PageController {
     this._container.show();
   }
 
-
   _onDataChange(movieController, oldData, newData) {
-    const isSuccess = this._filmsModel.updateMovie(oldData.id, newData);
 
-    if (isSuccess) {
-      movieController.render(newData);
-    }
+    this._api.updateFilm(oldData.id, newData)
+        .then((filmModel) => {
+          const isSuccess = this._filmsModel.updateMovie(oldData.id, filmModel);
+
+          if (isSuccess) {
+            movieController.render(filmModel);
+            this._updateFilms(this._showingFilmCount);
+          }
+        });
   }
 
 
@@ -207,7 +212,7 @@ export default class PageController {
   }
 
   _onFilterChange() {
-    this._updateTasks(SHOWING_FILM_COUNT_ON_START);
+    this._updateFilms(SHOWING_FILM_COUNT_ON_START);
   }
 
 }

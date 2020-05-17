@@ -21,14 +21,52 @@ export default class Movie {
     this.isWatchlist = Boolean(data[`user_details`].watchlist);
     this.isWatched = Boolean(data[`user_details`].already_watched);
     this.isFavorites = Boolean(data[`user_details`].favorite);
+    this.watchingDate = data[`user_details`].watching_date;
   }
 
 
-  static parseFilm(filmData, comments) {
-    return new Movie(filmData, Comment.parseComments(comments));
+  static parseFilm(data, comments) {
+    return new Movie(data, Comment.parseComments(comments));
   }
 
   static parseFilms(films, comments) {
     return films.map((film, i) => Movie.parseFilm(film, comments[i]));
   }
+
+
+  toRaw() {
+    return {
+      'id': this.id,
+      'comments': this.comment.map((it) => it.id),
+      'film_info': {
+        'title': this.filmTitle,
+        'alternative_title': this.filmTtitleOriginal,
+        'total_rating': this.filmRating,
+        'poster': this.poster,
+        'age_rating': this.ageRating,
+        'director': this.director,
+        'writers': this.writer,
+        'actors': this.actor,
+        'release': {
+          'date': this.releaseDate,
+          'release_country': this.country
+        },
+        'runtime': this.runtime,
+        'genre': this.genres,
+        'description': this.filmDescription,
+      },
+      'user_details': {
+        'watchlist': this.isWatchlist,
+        'already_watched': !!this.isWatched,
+        'watching_date': this.watchingDate,
+        'favorite': this.isFavorites
+      }
+    };
+  }
+
+
+  static clone(data) {
+    return new Movie(data.toRaw());
+  }
+
 }

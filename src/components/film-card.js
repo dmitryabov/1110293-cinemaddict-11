@@ -61,4 +61,8 @@ export default class Card extends AbstractComponent {
   setAddToFavoriteClick(handler) {
     this.getElement().querySelector(`.film-card__controls-item--favorite`).addEventListener(`click`, handler);
   }
+
+  setClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, handler);
+  }
 }

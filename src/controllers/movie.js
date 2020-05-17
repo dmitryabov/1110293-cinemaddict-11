@@ -32,12 +32,17 @@ export default class MovieController {
     this._commentsModel = null;
     this.commentsBoardComponent = null;
     this.commentComponent = null;
+    this._siteMain = document.querySelector(`.main`);
 
   }
 
   _appendDetailToFilmCard() {
-    removeElement(document.querySelector(`body`), this._filmDetailsComponent);
+    this._filmDetailsComponent.getElement().remove();
     this._mode = Mode.DEFAULT;
+
+    this._filmDetailsComponent.removeClickHandler(() => {
+      this._appendDetailToFilmCard();
+    });
 
     document.removeEventListener(`keydown`, (evt) => {
       if (evt.key === Keys.ESC_KEY) {
@@ -49,7 +54,6 @@ export default class MovieController {
 
 
   render(filmCard) {
-    this._filmCard = filmCard;
 
     const oldFilmComponent = this._filmCardComponent;
     const oldFilmDetailsComponent = this._filmDetailsComponent;
@@ -75,55 +79,51 @@ export default class MovieController {
       });
 
 
-      append(document.querySelector(`body`), this._filmDetailsComponent);
+      append(this._siteMain, this._filmDetailsComponent);
       this._mode = Mode.POPUP;
 
       this.renderCommentsBoard(filmCard);
 
-      this._filmDetailsComponent.setCloseButtonClickHandler(() => {
-        this._appendDetailToFilmCard();
+      this._filmDetailsComponent.setClickHandler(() => {
+        this._appendDetailToFilmCard(filmCard);
         this._updateFilm();
       });
 
       document.addEventListener(`keydown`, (evt) => {
         if (evt.key === Keys.ESC_KEY) {
-          this._appendDetailToFilmCard();
+          this._appendDetailToFilmCard(filmCard);
           this._updateFilm();
         }
       });
+
+      this._filmDetailsComponent.setWatchlistButtonClickHandler(() => {
+        const newFilm = Movie.clone(filmCard);
+        newFilm.isWatchlist = !newFilm.isWatchlist;
+
+        this._onDataChange(this, filmCard, newFilm);
+      });
+
+
+      this._filmDetailsComponent.setWatchedButtonClickHandler(() => {
+        const newFilm = Movie.clone(filmCard);
+        newFilm.isWatched = !newFilm.isWatched;
+
+        this._onDataChange(this, filmCard, newFilm);
+      });
+
+      this._filmDetailsComponent.setFavoritesButtonClickHandler(() => {
+        const newFilm = Movie.clone(filmCard);
+        newFilm.isFavorites = !newFilm.isFavorites;
+
+        this._onDataChange(this, filmCard, newFilm);
+      });
     };
-
-    this._filmDetailsComponent.setWatchlistButtonClickHandler((evt) => {
-      evt.preventDefault();
-      filmCard = this._onModelDataChange(filmCard, Object.assign({}, filmCard, {
-        isWatchlist: !filmCard.isWatchlist,
-      }));
-      filmsToUpdate[filmsToUpdate.length - 1].film = filmCard;
-    });
-
-
-    this._filmDetailsComponent.setWatchedButtonClickHandler((evt) => {
-      evt.preventDefault();
-      filmCard = this._onModelDataChange(filmCard, Object.assign({}, filmCard, {
-        isWatched: !filmCard.isWatched,
-      }));
-      filmsToUpdate[filmsToUpdate.length - 1].film = filmCard;
-    });
-
-    this._filmDetailsComponent.setFavoritesButtonClickHandler((evt) => {
-      evt.preventDefault();
-
-      filmCard = this._onModelDataChange(filmCard, Object.assign({}, filmCard, {
-        isFavorites: !filmCard.isFavorites,
-      }));
-      filmsToUpdate[filmsToUpdate.length - 1].film = filmCard;
-    });
 
     if (oldFilmComponent && oldFilmDetailsComponent) {
       replace(this._filmCardComponent, oldFilmComponent);
       replace(this._filmDetailsComponent, oldFilmDetailsComponent);
     } else {
-      render(this._container, this._filmCardComponent);
+      render(this._container, this._filmCardComponent, RenderPosition.BEFOREEND);
     }
 
 
@@ -143,45 +143,28 @@ export default class MovieController {
     this._filmCardComponent.setAddToWatchlistClick((evt) => {
       evt.preventDefault();
 
-      const newFilm = Movie.clone(this._filmCard);
+      const newFilm = Movie.clone(filmCard);
       newFilm.isWatchlist = !newFilm.isWatchlist;
 
-      this._onDataChange(this, this._filmCard, newFilm);
+      this._onDataChange(this, filmCard, newFilm);
     });
 
     this._filmCardComponent.setMarkAsWatchedClick((evt) => {
       evt.preventDefault();
-      this._onDataChange(this, this._filmCard, Object.assign({}, this._filmCard, {
-        isWatched: !filmCard.isWatched,
-      }));
+      const newFilm = Movie.clone(filmCard);
+      newFilm.isWatched = !newFilm.isWatched;
+
+      this._onDataChange(this, filmCard, newFilm);
     });
 
     this._filmCardComponent.setAddToFavoriteClick((evt) => {
       evt.preventDefault();
-      this._onDataChange(this, this._filmCard, Object.assign({}, this._filmCard, {
-        isFavorites: !filmCard.isFavorites,
-      }));
 
-    });
+      const newFilm = Movie.clone(filmCard);
+      newFilm.isFavorites = !newFilm.isFavorites;
 
+      this._onDataChange(this, filmCard, newFilm);
 
-    this._filmDetailsComponent.setWatchlistButtonClickHandler(() => {
-      this._onDataChange(this, filmCard, Object.assign({}, filmCard, {
-        isWatchlist: !filmCard.isWatchlist,
-      }));
-
-    });
-
-    this._filmDetailsComponent.setWatchedButtonClickHandler(() => {
-      this._onDataChange(this, filmCard, Object.assign({}, filmCard, {
-        isWatched: !filmCard.isWatched,
-      }));
-    });
-
-    this._filmDetailsComponent.setFavoritesButtonClickHandler(() => {
-      this._onDataChange(this, filmCard, Object.assign({}, filmCard, {
-        isFavorites: !filmCard.isFavorites,
-      }));
     });
 
   }
@@ -195,9 +178,10 @@ export default class MovieController {
 
   _updateFilm() {
     filmsToUpdate.forEach((it) => {
-      this._onDataChange(this, it.filmCard, Object.assign({}, it.filmCard, {
-        comment: it.commentsModel.getComments(it.filmCard),
-      }));
+
+      const newFilm = Movie.clone(it.filmCard);
+      // newFilm.comments = it.commentsModel.getComments(it.filmCard);
+      this._onDataChange(this, it.filmCard, newFilm);
     });
     filmsToUpdate = [];
   }
@@ -209,7 +193,7 @@ export default class MovieController {
 
 
   renderCommentsBoard(filmCard) {
-    const commentsSection = document.querySelector(`.form-details__bottom-container`);
+    const commentsSection = this._siteMain.querySelector(`.form-details__bottom-container`);
     this._commentBoardComponent = new CommentsBoardComponent(this._commentsModel, filmCard.emoji);
     render(commentsSection, this._commentBoardComponent, RenderPosition.BEFOREEND);
     this._commentBoardComponent.renderAllComments();

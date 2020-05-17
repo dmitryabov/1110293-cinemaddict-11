@@ -127,7 +127,7 @@ export default class PageController {
     this._showedMovieControllers = this._showedMovieControllers.concat(newMostFilms);
   }
 
-  _updateFilms(count) {
+  _updateTasks(count) {
     this._removeMovies();
     this._renderFilms(this._filmsModel.getMovies().slice(0, count));
     const filmTopCards = this._filmsModel.getMovies().slice().sort((prev, next) => next.filmRating - prev.filmRating);
@@ -185,7 +185,7 @@ export default class PageController {
 
           if (isSuccess) {
             movieController.render(filmModel);
-            this._updateFilms(this._showingFilmCount);
+            this._updateTasks(this._showingFilmCount);
           }
         });
   }
@@ -212,7 +212,7 @@ export default class PageController {
   }
 
   _onFilterChange() {
-    this._updateFilms(SHOWING_FILM_COUNT_ON_START);
+    this._updateTasks(SHOWING_FILM_COUNT_ON_START);
   }
 
 }

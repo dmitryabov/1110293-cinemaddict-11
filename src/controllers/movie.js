@@ -6,7 +6,8 @@ import {removeElement} from "../utils/removeChild.js";
 import {remove} from "../utils/render.js";
 import {Keys} from "../const.js";
 import CommentsBoardComponent from "../components/comments-board.js";
-import CommentsModel from "../moment/comments.js";
+import CommentsModel from "../models/comments.js";
+import Movie from "../models/movie.js";
 
 
 const Mode = {
@@ -141,9 +142,11 @@ export default class MovieController {
 
     this._filmCardComponent.setAddToWatchlistClick((evt) => {
       evt.preventDefault();
-      this._onDataChange(this, this._filmCard, Object.assign({}, this._filmCard, {
-        isWatchlist: !filmCard.isWatchlist,
-      }));
+
+      const newFilm = Movie.clone(this._filmCard);
+      newFilm.isWatchlist = !newFilm.isWatchlist;
+
+      this._onDataChange(this, this._filmCard, newFilm);
     });
 
     this._filmCardComponent.setMarkAsWatchedClick((evt) => {

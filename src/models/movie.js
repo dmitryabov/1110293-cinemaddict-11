@@ -17,7 +17,7 @@ export default class Movie {
     this.filmTitle = data[`film_info`].title;
     this.poster = data[`film_info`].poster;
     this.filmRating = data[`film_info`].total_rating;
-    this.filmTtitleOriginal = data[`film_info`].alternative_title;
+    this.filmTitleOriginal = data[`film_info`].alternative_title;
     this.ageRating = data[`film_info`].age_rating;
     this.isWatchlist = Boolean(data[`user_details`].watchlist);
     this.isWatched = Boolean(data[`user_details`].already_watched);
@@ -36,13 +36,12 @@ export default class Movie {
 
 
   toRaw() {
-
     return {
       'id': this.id,
       'comments': this.comments,
       'film_info': {
         'title': this.filmTitle,
-        'alternative_title': this.filmTtitleOriginal,
+        'alternative_title': this.filmTitleOriginal,
         'total_rating': this.filmRating,
         'poster': this.poster,
         'age_rating': this.ageRating,

@@ -1,6 +1,6 @@
 
 import AbstractSmartComponent from "./abstract-smart-component.js";
-import {formatDate} from "../utils/common.js";
+import {formatDate, filmDuration} from "../utils/common.js";
 
 
 const createFilmDetailsTemplate = (rows) => {
@@ -33,6 +33,7 @@ const createFilmGenreTemplate = (genres) => {
 
 const createfilmDetailRows = (card) => {
   const date = formatDate(card.releaseDate);
+  const time = filmDuration(card.runtime);
   return [
     {
       cell: `${card.director}`,
@@ -51,7 +52,7 @@ const createfilmDetailRows = (card) => {
       term: `Release`,
     },
     {
-      cell: `${card.runtime}`,
+      cell: `${time}`,
       term: `Runtime`,
     },
     {

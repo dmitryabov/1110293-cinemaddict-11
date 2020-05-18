@@ -1,12 +1,15 @@
 import {render, RenderPosition, remove} from "../utils/render.js";
 import CommentComponent from "../components/film-comments.js";
+import shake from "../utils/common.js";
+
 
 class CommentController {
-  constructor(container, commentsModel, boardComponent) {
+  constructor(container, commentsModel, boardComponent, api) {
     this._container = container;
     this._commentsModel = commentsModel;
     this._commentComponent = null;
     this._boardComponent = boardComponent;
+    this._api = api;
   }
 
   render(comment) {
@@ -15,9 +18,18 @@ class CommentController {
 
     this._commentComponent.setDeleteButtonClickHandler((evt) => {
       evt.preventDefault();
-      const comments = this._commentsModel.onDeleteComment(comment.id);
-      remove(this._commentComponent);
-      this._boardComponent.rerender(comments);
+      evt.target.classList.add(`disabled`);
+      evt.target.textContent = `Deleting...`;
+      this._api.deleteComment(comment.id)
+      .then(() => {
+        const comments = this._commentsModel.onDeleteComment(comment.id);
+        remove(this._commentComponent);
+        this._boardComponent.rerender(comments);
+      })
+      .catch(() => {
+        evt.target.classList.remove(`disabled`);
+        shake(evt.target.parentNode.parentNode.parentNode);
+      });
     });
   }
 }

@@ -49,11 +49,52 @@ export default class API {
 
   }
 
+  getComments(filmId) {
+    const headers = new Headers();
+    headers.append(`Authorization`, this._authorization);
+
+    return fetch(`https://11.ecmascript.pages.academy/cinemaddict/comments/${filmId}`, {headers})
+      .then((response) => response.json())
+      .then(Comment.parseComments);
+  }
+
   _getComments(filmId) {
     const headers = new Headers();
     headers.append(`Authorization`, this._authorization);
 
     return fetch(`https://11.ecmascript.pages.academy/cinemaddict/comments/${filmId}`, {headers})
       .then((response) => response.json());
+  }
+
+  createComment(filmId, comment) {
+    return this._load({
+      url: `https://11.ecmascript.pages.academy/cinemaddict/comments/${filmId}`,
+      method: `POST`,
+      body: JSON.stringify(comment),
+      headers: new Headers({"Content-Type": `application/json`})
+    })
+      .then((response) => response.json())
+      .then(Comment.parseComment);
+  }
+
+
+  deleteComment(commentId) {
+    const headers = new Headers();
+    headers.append(`Authorization`, this._authorization);
+
+    return fetch(`https://11.ecmascript.pages.academy/cinemaddict/comments/${commentId}`, {
+      method: `DELETE`,
+      headers,
+    })
+    .then(checkStatus);
+  }
+
+
+  _load({url, method = `Method`, body = null, headers = new Headers()}) {
+    headers.append(`Authorization`, this._authorization);
+
+    return fetch(`${url}`, {method, body, headers})
+      .then(checkStatus);
+
   }
 }

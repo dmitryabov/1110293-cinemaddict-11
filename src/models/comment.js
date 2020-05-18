@@ -8,6 +8,15 @@ export default class Comment {
 
   }
 
+  toRAW() {
+    this.emoji = this.emoji.split(`.`)[0];
+    return {
+      "comment": this.text,
+      "date": this.date,
+      "emotion": this.emoji
+    };
+  }
+
 
   static parseComment(commentData) {
     return new Comment(commentData);
@@ -18,22 +27,8 @@ export default class Comment {
   }
 
 
-  static toRaw(comment) {
-    if (comment.id) {
-      return {
-        'id': comment.id,
-        'author': comment.author,
-        'comment': comment.text,
-        'date': comment.date,
-        'emotion': comment.emoji
-      };
-    } else {
-      return {
-        'comment': comment.text,
-        'date': comment.date,
-        'emotion': comment.emoji
-      };
-    }
+  static clone(data) {
+    return new Comment(data.toRAW());
   }
 
 }

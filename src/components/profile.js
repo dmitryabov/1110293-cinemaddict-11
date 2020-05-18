@@ -2,7 +2,7 @@ import {PROFILE_RATINGS} from '../const.js';
 import AbstractComponent from "./abstract-component.js";
 
 const getRating = (profileInformation) => {
-  let ratingProfile = profileInformation.rating;
+  let ratingProfile = profileInformation.length;
   ratingProfile = ratingProfile >= 21 ? `movie buff` : PROFILE_RATINGS[Math.ceil(ratingProfile / 10)];
   return {
     rating: ratingProfile,

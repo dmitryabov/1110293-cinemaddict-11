@@ -1,6 +1,5 @@
 import MovieStaistic from "./components/footer-statistic.js";
 import Profile from './components/profile.js';
-import {profileInformations} from "./mock/profile-rating.js";
 import {render, RenderPosition} from "./utils/render.js";
 import PageController from "./controllers/page.js";
 import Movies from "./models/movies.js";
@@ -20,8 +19,6 @@ const filterController = new FilterController(mainContainer, filmsModel);
 const pageController = new PageController(mainContainer, filmsModel, api);
 
 
-render(siteHeaderElement, new Profile(profileInformations), RenderPosition.BEFOREEND);
-
 filterController.render();
 
 
@@ -30,4 +27,5 @@ api.getFilms()
     filmsModel.setMovies(movies);
     pageController.render(movies);
     render(filmsStaisticContainer, new MovieStaistic(movies), RenderPosition.BEFOREEND);
+    render(siteHeaderElement, new Profile(movies.filter((item) => item.isWatched === true)), RenderPosition.BEFOREEND);
   });

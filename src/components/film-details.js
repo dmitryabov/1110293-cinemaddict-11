@@ -1,6 +1,6 @@
 
 import AbstractSmartComponent from "./abstract-smart-component.js";
-import {formatDate} from "../utils/common.js";
+import {formatDate, filmDuration} from "../utils/common.js";
 
 
 const createFilmDetailsTemplate = (rows) => {
@@ -33,6 +33,7 @@ const createFilmGenreTemplate = (genres) => {
 
 const createfilmDetailRows = (card) => {
   const date = formatDate(card.releaseDate);
+  const time = filmDuration(card.runtime);
   return [
     {
       cell: `${card.director}`,
@@ -51,7 +52,7 @@ const createfilmDetailRows = (card) => {
       term: `Release`,
     },
     {
-      cell: `${card.runtime}`,
+      cell: `${time}`,
       term: `Runtime`,
     },
     {
@@ -139,20 +140,13 @@ export default class FilmDetails extends AbstractSmartComponent {
     super();
     this._card = card;
 
-    this._addWatchListHandler = null;
-    this._markAsWatchedHandler = null;
-    this._favoriteHandler = null;
-    this._closeButtonHandler = null;
+    this._submitHandler = null;
 
-
-    this._element = this.getElement();
   }
 
   recoveryListeners() {
-    this.setWatchlistButtonClickHandler(this._addWatchListHandler);
-    this.setWatchedButtonClickHandler(this._markAsWatchedHandler);
-    this.setFavoritesButtonClickHandler(this._favoriteHandler);
-    this.setCloseButtonClickHandler(this._closeButtonHandler);
+    this.setClickHandler(this._submitHandler);
+    this._subscribeOnEvents();
 
   }
 
@@ -160,30 +154,33 @@ export default class FilmDetails extends AbstractSmartComponent {
     return createFilmDetailTemplate(this._card);
   }
 
-
-  setCloseButtonClickHandler(handler) {
-    this._element.querySelector(`.film-details__close`).addEventListener(`click`, handler);
-
-    this._closeButtonHandler = handler;
+  setClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
+    this._submitHandler = handler;
   }
 
 
-  setWatchlistButtonClickHandler(handler) {
-    this._element.querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, handler);
+  removeClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, handler);
+  }
 
-    this._addWatchListHandler = handler;
+
+  setDeleteButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__comment-delete`).addEventListener(`click`, handler);
+
+    this._deleteButtonClickHandler = handler;
+  }
+
+  setWatchlistButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__control-label--watchlist`).addEventListener(`click`, handler);
   }
 
   setWatchedButtonClickHandler(handler) {
-    this._element.querySelector(`.film-details__control-label--watched`).addEventListener(`click`, handler);
-
-    this._markAsWatchedHandler = handler;
+    this.getElement().querySelector(`.film-details__control-label--watched`).addEventListener(`click`, handler);
   }
 
   setFavoritesButtonClickHandler(handler) {
-    this._element.querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, handler);
-
-    this._favoriteHandler = handler;
+    this.getElement().querySelector(`.film-details__control-label--favorite`).addEventListener(`click`, handler);
   }
 
 }

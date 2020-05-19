@@ -38,6 +38,7 @@ export default class FilterController {
       replace(this._filterComponent, oldComponent);
     } else {
       render(container, this._filterComponent, RenderPosition.BEFOREEND);
+
     }
   }
 

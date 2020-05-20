@@ -4,6 +4,7 @@ export const FilterType = {
   WATCHLIST: `Watchlist`,
   HISTORY: `History`,
   FAVORITES: `Favorites`,
+  STATS: `Stats`,
 };
 
 
@@ -24,6 +25,7 @@ const getFilteredFilms = (films, filterType) => {
     case FilterType.FAVORITES:
       filteredFilms = showingFilmCards.filter((film) => Boolean(film.isFavorites));
       break;
+
   }
 
   return filteredFilms;

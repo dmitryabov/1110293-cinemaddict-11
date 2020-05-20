@@ -12,6 +12,13 @@ export const formatTime = (date) => {
   return moment(date).format(`hh:mm`);
 };
 
+export const getMaxValueKeyFromObject = (obj) => {
+  const maxValue = Math.max(...Object.values(obj));
+  const topKeys = Object.keys(obj).filter((it) => obj[it] === maxValue);
+  const topKey = topKeys[0];
+  return topKey;
+};
+
 export const shake = (element) => {
   const SHAKE_ANIMATION_TIMEOUT = 600;
 

@@ -15,10 +15,10 @@ const siteHeaderElement = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
 const api = new API(AUTHORIZATION);
 const filmsModel = new Movies();
-const filterController = new FilterController(mainContainer, filmsModel);
+
 const pageController = new PageController(mainContainer, filmsModel, api);
 
-
+const filterController = new FilterController(mainContainer, filmsModel, pageController);
 filterController.render();
 
 
@@ -28,4 +28,5 @@ api.getFilms()
     pageController.render(movies);
     render(filmsStaisticContainer, new MovieStaistic(movies), RenderPosition.BEFOREEND);
     render(siteHeaderElement, new Profile(movies.filter((item) => item.isWatched === true)), RenderPosition.BEFOREEND);
+
   });

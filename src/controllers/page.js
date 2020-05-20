@@ -66,6 +66,17 @@ export default class PageController {
     this._filmsModel.setFilterChangeHandler(this._onFilterChange);
   }
 
+  hide() {
+    this._filmsContainer.hide();
+    this._sort.hide();
+  }
+
+  show() {
+    this._filmsContainer.show();
+    this._sort.show();
+  }
+
+
   render() {
     const filmCards = this._filmsModel.getMovies();
     const container = this._container;
@@ -153,13 +164,6 @@ export default class PageController {
     });
   }
 
-  hide() {
-    this._container.hide();
-  }
-
-  show() {
-    this._container.show();
-  }
 
   _onDataChange(movieController, oldData, newData) {
     this._api.updateFilm(oldData.id, newData)

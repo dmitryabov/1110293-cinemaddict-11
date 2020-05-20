@@ -156,6 +156,7 @@ class Statistics extends AbstractComponent {
     return sortedGenres;
   }
 
+
   setPeriodChangeHandler(handler) {
     this.getElement().querySelector(`.statistic__filters`).addEventListener(`change`, handler);
   }

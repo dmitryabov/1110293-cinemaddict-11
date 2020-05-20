@@ -15,7 +15,6 @@ export default class FilterController {
     this._filterComponent = null;
     this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
-
     this._statisticsComponent = null;
     this._watchedFilms = null;
     this._onStatsPeriodChangeHandler = this._onStatsPeriodChangeHandler.bind(this);
@@ -44,8 +43,8 @@ export default class FilterController {
 
      };
 
-    const oldComponent = this._filterComponent;
 
+    const oldComponent = this._filterComponent;
     this._filterComponent = new FilterComponent(filters);
     this._filterComponent.setFilterTypeChangeHandler(this._onFilterChange);
 

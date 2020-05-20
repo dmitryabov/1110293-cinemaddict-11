@@ -12,7 +12,7 @@ const createFilterTemplate = (filtres) => {
         <a href="#history" data-filter-type="${FilterType.HISTORY}" class="main-navigation__item">History <span class="main-navigation__item-count">${filtres.countHistory}</span></a>
         <a href="#favorites" data-filter-type="${FilterType.FAVORITES}" class="main-navigation__item">Favorites <span class="main-navigation__item-count">${filtres.countFavorites}</span></a>
       </div>
-      <a href="#stats" class="main-navigation__additional">Stats</a>
+      <a href="#stats" data-filter-type="${FilterType.STATS}" class="main-navigation__additional">Stats</a>
     </nav>`
   );
 };

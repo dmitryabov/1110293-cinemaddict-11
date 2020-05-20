@@ -46,10 +46,6 @@ export default class Movies {
     this._filterChangeHandlers.push(handler);
   }
 
-  setFilterChangeHandler(handler) {
-    this._filterChangeHandlers.push(handler);
-  }
-
   setDataChangeHandler(handler) {
     this._dataChangeHandlers.push(handler);
   }

@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
@@ -32,6 +34,10 @@ export const replace = (newComponent, oldComponent) => {
   if (isExistElements && parentElement.contains(oldElement)) {
     parentElement.replaceChild(newElement, oldElement);
   }
+};
+
+export const filmDuration = (duration) => {
+  return `${moment.duration(duration, `m`).hours()}h ${moment.duration(duration, `m`).minutes()}m`;
 };
 
 export const remove = (component) => {

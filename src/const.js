@@ -45,6 +45,7 @@ const FilterType = {
   WATCHLIST: `Watchlist`,
   HISTORY: `History`,
   FAVORITES: `Favorites`,
+  STATS: `Stats`,
 };
 
 const Keys = {
@@ -53,5 +54,10 @@ const Keys = {
   ENTER_KEY: `Enter`,
 };
 
+const MenuMode = {
+  STATISTICS: `stats`,
+  FILTERS: `filter`,
+};
 
-export {CONTROL_NAMES, EMOJI_NAMES, PROFILE_RATINGS, FILM_LIST_CATEGORIES, FilterType, Keys};
+
+export {CONTROL_NAMES, EMOJI_NAMES, PROFILE_RATINGS, FILM_LIST_CATEGORIES, FilterType, Keys, MenuMode};

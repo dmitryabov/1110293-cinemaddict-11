@@ -4,9 +4,7 @@ import {render, RenderPosition} from "./utils/render.js";
 import PageController from "./controllers/page.js";
 import Movies from "./models/movies.js";
 import FilterController from "./controllers/filter.js";
-import Statistics from "./components/statistics.js";
 import API from "./api.js";
-
 
 
 const AUTHORIZATION = `Basic eo0w59034534534539a`;
@@ -24,11 +22,6 @@ const filterController = new FilterController(mainContainer, filmsModel, pageCon
 filterController.render();
 
 
-const statisticsComponent = new Statistics();
-
-render(mainContainer, statisticsComponent, RenderPosition.BEFOREEND);
-// statisticsComponent.hide();
-
 api.getFilms()
   .then((movies) => {
     filmsModel.setMovies(movies);
@@ -37,4 +30,3 @@ api.getFilms()
     render(siteHeaderElement, new Profile(movies.filter((item) => item.isWatched === true)), RenderPosition.BEFOREEND);
 
   });
-

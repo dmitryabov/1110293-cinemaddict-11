@@ -1,4 +1,3 @@
-
 import AbstractComponent from "./abstract-component.js";
 import Chart from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -166,4 +165,3 @@ class Statistics extends AbstractComponent {
 }
 
 export default Statistics;
-

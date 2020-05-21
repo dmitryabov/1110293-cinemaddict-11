@@ -146,6 +146,7 @@ class Statistics extends AbstractComponent {
     renderCharts(statisticCtx, this.sortedGenres);
   }
 
+
   _shareGenresByQuantity(films) {
     let sortedGenres = {};
     films.forEach((film) => {

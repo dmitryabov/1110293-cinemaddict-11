@@ -4,7 +4,7 @@ import {EMOJIS} from "../mock/comment.js";
 import CommentModel from "../models/comment.js";
 import {Keys} from "../const.js";
 import {encode} from "he";
-import shake from "../utils/common.js";
+import {shake} from "../utils/common";
 
 
 const createEmojiesListMarkup = (selectedEmoji) => {

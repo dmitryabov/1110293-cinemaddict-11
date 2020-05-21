@@ -1,6 +1,6 @@
 import {render, RenderPosition, remove} from "../utils/render.js";
 import CommentComponent from "../components/film-comments.js";
-import shake from "../utils/common.js";
+import {shake} from "../utils/common.js";
 
 
 class CommentController {

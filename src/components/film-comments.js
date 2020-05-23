@@ -22,7 +22,7 @@ const createCommentMarkup = (comment) => {
   );
 };
 
-class Comment extends AbstractSmartComponent {
+class FilmComment extends AbstractSmartComponent {
   constructor(comment) {
     super();
     this._comment = comment;
@@ -41,5 +41,5 @@ class Comment extends AbstractSmartComponent {
   }
 }
 
-export default Comment;
+export default FilmComment;
 

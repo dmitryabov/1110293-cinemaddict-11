@@ -1,26 +1,18 @@
 import AbstractComponent from "./abstract-component.js";
-
-const HREF_PREFIX = `#`;
-
-const createFilterMarkup = (filter, isChecked) => {
-  const {name, count} = filter;
-  const activeClass = isChecked === filter ? `main-navigation__item--active` : ``;
-  return (
-    `<a href="#${name.toLowerCase()}" class="main-navigation__item ${activeClass}">${name} <span class="main-navigation__item-count">${count}</span></a>`
-  );
-};
+import {FilterType} from '../const';
 
 
-const createFilterTemplate = (filters) => {
-  const filtersMarkup = filters.map((it) => createFilterMarkup(it, it.checked)).join(`\n`);
-
+const createFilterTemplate = (filtres) => {
 
   return (
     `<nav class="main-navigation">
       <div class="main-navigation__items">
-        ${filtersMarkup}
+        <a href="#all" data-filter-type="${FilterType.ALL}" class="main-navigation__item main-navigation__item--active">All movies</a>
+        <a href="#watchlist" data-filter-type="${FilterType.WATCHLIST}" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">${filtres.countWatchlist}</span></a>
+        <a href="#history" data-filter-type="${FilterType.HISTORY}" class="main-navigation__item">History <span class="main-navigation__item-count">${filtres.countHistory}</span></a>
+        <a href="#favorites" data-filter-type="${FilterType.FAVORITES}" class="main-navigation__item">Favorites <span class="main-navigation__item-count">${filtres.countFavorites}</span></a>
       </div>
-      <a href="#stats" class="main-navigation__additional">Stats</a>
+      <a href="#stats" data-filter-type="${FilterType.STATS}" class="main-navigation__additional">Stats</a>
     </nav>`
   );
 };
@@ -30,31 +22,39 @@ const createFilterTemplate = (filters) => {
  * @param {object} filter массив с названием фильтров
  */
 export default class Filter extends AbstractComponent {
-  constructor(filter) {
+  constructor(filters) {
     super();
-    this._filter = filter;
+
+    this._filters = filters;
 
   }
 
   getTemplate() {
-    return createFilterTemplate(this._filter);
+    return createFilterTemplate(this._filters);
   }
 
+  getFilterType() {
 
-  setFilterChangeClickHandler(handler) {
-    this.getElement().querySelector(`.main-navigation__items`).addEventListener(`click`, (evt) => {
-      if (evt.target.tagName === `A`) {
-        evt.preventDefault();
-        const selectedFilter = evt.target.getAttribute(`href`).substring(HREF_PREFIX.length);
-        if (selectedFilter === this._isChecked) {
-          return;
-        }
-        handler(selectedFilter);
-        this._isChecked = selectedFilter;
-        this.rerender();
+  }
+
+  setFilterTypeChangeHandler(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+
+      if (evt.target.tagName !== `A`) {
+        return;
       }
-    });
-    this.filterChangeHandler = handler;
-  }
 
+      const filterType = evt.target.dataset.filterType;
+
+      if (this._currenFilterType === filterType) {
+        return;
+      }
+
+      this._currenFilterType = filterType;
+
+      handler(this._currenFilterType);
+    });
+
+  }
 }

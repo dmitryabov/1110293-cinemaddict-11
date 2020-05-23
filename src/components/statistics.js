@@ -1,8 +1,7 @@
 import AbstractComponent from "./abstract-component.js";
 import Chart from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import {filmDuration} from "../utils/render.js";
-import {getMaxValueKeyFromObject} from "../utils/common.js";
+import {getMaxValueKeyFromObject, changeFormatToFilmDuration} from "../utils/common.js";
 
 
 const createPeriodsMarkup = (period, isActive) => {
@@ -18,7 +17,7 @@ const createStatisticsTemplate = (films, Periods) => {
   const periodsMarkup = Object.keys(Periods).map((it) => createPeriodsMarkup(it, Periods[it])).join(`\n`);
   const filmsCount = films.length;
 
-  const totalDuration = filmDuration(films.reduce((a, b) => {
+  const totalDuration = changeFormatToFilmDuration(films.reduce((a, b) => {
     return a + b.runtime;
   }, 0));
 
@@ -129,14 +128,14 @@ class Statistics extends AbstractComponent {
   constructor(films, periods) {
     super();
     this._films = films;
-    this._Periods = periods;
+    this._periods = periods;
     this._renderCharts(this._films);
     this.sortedGenres = null;
     this.topGenre = null;
   }
 
   getTemplate() {
-    return createStatisticsTemplate(this._films, this._Periods);
+    return createStatisticsTemplate(this._films, this._periods);
   }
 
   _renderCharts(films) {
@@ -148,7 +147,7 @@ class Statistics extends AbstractComponent {
 
 
   _shareGenresByQuantity(films) {
-    let sortedGenres = {};
+    const sortedGenres = {};
     films.forEach((film) => {
       film.genres.forEach((genres) => {
         sortedGenres[genres] = sortedGenres[genres] ? sortedGenres[genres] + 1 : 1;

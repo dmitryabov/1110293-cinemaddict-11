@@ -1,5 +1,5 @@
 import AbstractComponent from "./abstract-component.js";
-import {formatDate, filmDuration} from "../utils/common.js";
+import {formatDate, changeFormatToFilmDuration} from "../utils/common.js";
 
 const createFilmCardTemplate = (card) => {
   const {filmTitle, poster, filmDescription, filmRating,
@@ -9,7 +9,7 @@ const createFilmCardTemplate = (card) => {
   const watchedButton = isWatched ? `film-card__controls-item--active` : ``;
   const favoritesButton = isFavorites ? `film-card__controls-item--active` : ``;
   const date = formatDate(releaseDate);
-  const time = filmDuration(runtime);
+  const time = changeFormatToFilmDuration(runtime);
   const description = filmDescription.length > 140 ? filmDescription.substr(0, 140) + `...` : filmDescription;
 
 
@@ -37,7 +37,7 @@ const createFilmCardTemplate = (card) => {
  * @class
  * @param {object} card  объект с данными о фильме
  */
-export default class Card extends AbstractComponent {
+export default class FilmCard extends AbstractComponent {
   constructor(card) {
     super();
 

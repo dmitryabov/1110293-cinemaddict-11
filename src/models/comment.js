@@ -25,10 +25,4 @@ export default class Comment {
   static parseComments(comments) {
     return comments.map((comment) => Comment.parseComment(comment));
   }
-
-
-  static clone(data) {
-    return new Comment(data.toRAW());
-  }
-
 }

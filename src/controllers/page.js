@@ -1,9 +1,9 @@
 import NoFilmsComponent from "../components/no-films.js";
 import {render, remove, RenderPosition} from "../utils/render.js";
 import ButtonShowMore from '../components/button-show-more.js';
-import FilmsContainer from '../components/container.js';
-import FilmsExtraContainer from '../components/films-extra.js';
-import Sort, {SortType} from '../components/sorting';
+import FilmsContainer from '../components/films-container.js';
+import FilmsExtraContainer from '../components/films-extra-container.js';
+import Sort, {SortType} from '../components/sort.js';
 import {FILM_LIST_CATEGORIES} from '../const';
 import MovieController from "./movie.js";
 

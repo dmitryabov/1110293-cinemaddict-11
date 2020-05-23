@@ -36,9 +36,6 @@ export const replace = (newComponent, oldComponent) => {
   }
 };
 
-export const filmDuration = (duration) => {
-  return `${moment.duration(duration, `m`).hours()}h ${moment.duration(duration, `m`).minutes()}m`;
-};
 
 export const remove = (component) => {
   component.getElement().remove();

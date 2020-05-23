@@ -4,7 +4,7 @@ export const formatDate = (date) => {
   return moment(date).format(`DD MMMM Y`);
 };
 
-export const filmDuration = (duration) => {
+export const changeFormatToFilmDuration = (duration) => {
   return `${moment.duration(duration, `m`).hours()}h ${moment.duration(duration, `m`).minutes()}m`;
 };
 

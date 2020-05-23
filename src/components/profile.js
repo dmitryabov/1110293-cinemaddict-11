@@ -11,7 +11,7 @@ const getRating = (profileInformation) => {
 
 };
 
-const headerProfileTemplate = (profile) => {
+const createHeaderProfileTemplate = (profile) => {
   const profileInformation = getRating(profile);
   return (
     `<section class="header__profile profile">
@@ -31,6 +31,6 @@ export default class Profile extends AbstractComponent {
   }
 
   getTemplate() {
-    return headerProfileTemplate(this._profile);
+    return createHeaderProfileTemplate(this._profile);
   }
 }

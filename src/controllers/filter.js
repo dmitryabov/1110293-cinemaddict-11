@@ -1,4 +1,4 @@
-import FilterComponent from "../components/navigation.js";
+import FilterComponent from "../components/filter.js";
 import {FilterType} from "../const.js";
 import {render, replace, RenderPosition, remove} from "../utils/render.js";
 import {getFilteredFilms} from "../utils/filter.js";
@@ -83,7 +83,7 @@ export default class FilterController {
   }
 
   _resetPeriods() {
-    for (let period in this.Periods) {
+    for (const period in this.Periods) {
       if (Object.prototype.hasOwnProperty.call(this.Periods, period)) {
         this.Periods[period] = false;
       }

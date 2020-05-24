@@ -8,7 +8,7 @@ const createMovieStaisticTemplate = (movieStaistic) => {
  * @class
  * @param {object} cards массив с карточками фильмов
  */
-export default class FooterFilmsСountStaistic extends AbstractComponent {
+export default class footerFilmsСountStaistic extends AbstractComponent {
   constructor(cards) {
     super();
     this._cards = cards;

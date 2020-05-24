@@ -1,5 +1,5 @@
 import {render, RenderPosition, remove} from "../utils/render.js";
-import CommentComponent from "../components/film-comments.js";
+import CommentComponent from "../components/film-comment-container.js";
 import {shake} from "../utils/common.js";
 
 

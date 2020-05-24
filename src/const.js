@@ -1,20 +1,3 @@
-const CONTROL_NAMES = [
-  {
-    name: `watchlist`,
-    label: `Add to watchlist`
-  },
-  {
-    name: `watched`,
-    label: `Already watched`
-  },
-  {
-    name: `favorite`,
-    label: `Add to favorites`
-  },
-
-];
-
-
 const EMOJI_NAMES = [
   `smile`,
   `sleeping`,
@@ -60,4 +43,4 @@ const MenuMode = {
 };
 
 
-export {CONTROL_NAMES, EMOJI_NAMES, PROFILE_RATINGS, FILM_LIST_CATEGORIES, FilterType, Keys, MenuMode};
+export {EMOJI_NAMES, PROFILE_RATINGS, FILM_LIST_CATEGORIES, FilterType, Keys, MenuMode};

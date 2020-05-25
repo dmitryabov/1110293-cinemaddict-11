@@ -1,4 +1,4 @@
-import FooterFilmsСountStatistic from "./components/footer-films-count-statistic.js";
+import FooterFilmsСountStatistics from "./components/footer-films-count-statistics.js";
 import Profile from './components/profile.js';
 import {render, RenderPosition} from "./utils/render.js";
 import PageController from "./controllers/page.js";
@@ -20,6 +20,6 @@ api.getFilms()
   .then((movies) => {
     filmsModel.setMovies(movies);
     pageController.render(movies);
-    render(filmsStaisticContainer, new FooterFilmsСountStatistic(movies), RenderPosition.BEFOREEND);
+    render(filmsStaisticContainer, new FooterFilmsСountStatistics(movies), RenderPosition.BEFOREEND);
     render(siteHeaderElement, new Profile(movies.filter((item) => item.isWatched === true)), RenderPosition.BEFOREEND);
   });

@@ -1,4 +1,4 @@
-import FooterFilmsСountStaistic from "./components/footer-films-count-staistic.js";
+import FooterFilmsСountStaistic from "./components/footer-films-count-statistic.js";
 import Profile from './components/profile.js';
 import {render, RenderPosition} from "./utils/render.js";
 import PageController from "./controllers/page.js";
